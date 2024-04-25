@@ -34,9 +34,23 @@ const addQuestion = async (req, res) => {
   try {
     const exam_id = req.params.exam_id
     const data = await Exam.findById(exam_id);
-    const addQues = data.Questions.push({
+    if(req.file){
+      data.Questions.push({
+        question: req.body.question,
+        img:req.file.path,
+        answer_1: req.body.answer_1,
+        answer_2: req.body.answer_2,
+        answer_3: req.body.answer_3,
+        answer_4: req.body.answer_4,
+        mark: req.body.mark,
+        role: req.body.role,
+        correctBolean: req.body.correctBolean,
+        correctChoice: req.body.correctChoice,
+      });
+    }
+    data.Questions.push({
       question: req.body.question,
-      img:req.file.path,
+      img:'empty',
       answer_1: req.body.answer_1,
       answer_2: req.body.answer_2,
       answer_3: req.body.answer_3,
