@@ -37,7 +37,7 @@ const addQuestion = async (req, res) => {
     const data = await Exam.findById(exam_id);
     if(req.file){
       const name = req.file.filename
-      
+      console.log('http://https://courses-project-iu0w.onrender.com/uploads/${name}')
       data.Questions.push({
         question: req.body.question,
         img:`http://https://courses-project-iu0w.onrender.com/uploads/${name}`,
