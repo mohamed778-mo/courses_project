@@ -34,11 +34,18 @@ const addQuestion = async (req, res) => {
   try {
     const exam_id = req.params.exam_id
     const data = await Exam.findById(exam_id);
-    console.log(req.file)
-    if(req.file){
+    
+    const imageUrl = req.file.filename;
+    const newImage = new Image({ imageUrl });
+    newImage.save((err, image) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('حدث خطأ أثناء حفظ الصورة');
+    }
+      else{
       data.Questions.push({
         question: req.body.question,
-        img:req.file.path,
+        img:imageUrl,
         answer_1: req.body.answer_1,
         answer_2: req.body.answer_2,
         answer_3: req.body.answer_3,
@@ -48,7 +55,12 @@ const addQuestion = async (req, res) => {
         correctBolean: req.body.correctBolean,
         correctChoice: req.body.correctChoice,
       });
-    }
+      }
+  });
+
+   
+if(!req.file)
+{ 
     data.Questions.push({
       question: req.body.question,
       img:'empty',
@@ -61,7 +73,7 @@ const addQuestion = async (req, res) => {
       correctBolean: req.body.correctBolean,
       correctChoice: req.body.correctChoice,
     });
-
+}
     data.save();
     res.status(200).send(data);
   } catch (e) {
