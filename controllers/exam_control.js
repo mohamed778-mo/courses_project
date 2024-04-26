@@ -35,17 +35,11 @@ const addQuestion = async (req, res) => {
     const exam_id = req.params.exam_id
     const data = await Exam.findById(exam_id);
     if(req.file){
-    const imageUrl = req.file.filename;
-    const newImage = new Image({ imageUrl });
-    newImage.save((err, image) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('حدث خطأ أثناء حفظ الصورة');
-    }
-      else{
+      const name = req.file.filename
+      
       data.Questions.push({
         question: req.body.question,
-        img:imageUrl,
+        img:`http://https://courses-project-iu0w.onrender.com/uploads/${name}`,
         answer_1: req.body.answer_1,
         answer_2: req.body.answer_2,
         answer_3: req.body.answer_3,
@@ -55,10 +49,13 @@ const addQuestion = async (req, res) => {
         correctBolean: req.body.correctBolean,
         correctChoice: req.body.correctChoice,
       });
-      }
-  });
-    }
-   
+
+      res.status(200).send(data);
+     
+        }
+  
+
+
 if(!req.file)
 { 
     data.Questions.push({
@@ -73,14 +70,15 @@ if(!req.file)
       correctBolean: req.body.correctBolean,
       correctChoice: req.body.correctChoice,
     });
+
+   res.status(200).send(data); 
 }
     data.save();
-    res.status(200).send(data);
+    
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
-
 
 const deleteQuestion = async (req, res) => {
   try {
