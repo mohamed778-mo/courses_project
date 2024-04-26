@@ -34,6 +34,7 @@ const addQuestion = async (req, res) => {
   try {
     const exam_id = req.params.exam_id
     const data = await Exam.findById(exam_id);
+    console.log(req.file)
     if(req.file){
       data.Questions.push({
         question: req.body.question,
