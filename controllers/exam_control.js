@@ -4,6 +4,7 @@ const Student = require("../models/student_model");
 const Teacher = require("../models/teacher_model");
 const Exam = require("../models/exam_model");
 const Result = require("../models/results_model");
+const path = require("path")
 
 const createExam = async (req, res) => {
   try {
