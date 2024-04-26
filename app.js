@@ -15,6 +15,7 @@ const uploadVideoRouter = require("./routers/video_router")
 const examRouter = require("./routers/exam_router")
 
 
+
 const app = express()
 
 app.use(express.json())
@@ -34,7 +35,7 @@ app.use('/app/video',uploadVideoRouter)
 app.use('/app/teacher/exam',examRouter)
 app.use('/app/student/exam',examRouter)
 
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 connection()
 
