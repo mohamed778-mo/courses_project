@@ -34,7 +34,7 @@ const addQuestion = async (req, res) => {
   try {
     const exam_id = req.params.exam_id
     const data = await Exam.findById(exam_id);
-    
+    if(req.file){
     const imageUrl = req.file.filename;
     const newImage = new Image({ imageUrl });
     newImage.save((err, image) => {
@@ -57,7 +57,7 @@ const addQuestion = async (req, res) => {
       });
       }
   });
-
+    }
    
 if(!req.file)
 { 
