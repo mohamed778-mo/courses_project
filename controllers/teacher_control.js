@@ -88,12 +88,12 @@ const Login = async (req, res) => {
 
     user.tokens.push(token);
     user.save();
-    console.log(res.req.cookies.access_token);
+  
     res
       .status(200)
       .send({ access_token: `Bearer ${token}`, success: "Login is success!" });
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send("Server Error");
   }
 };
 const getUser = async (req, res) => {
@@ -108,7 +108,7 @@ const getUser = async (req, res) => {
     }
     res.status(200).send(user);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -117,7 +117,7 @@ const getAllUser = async (req, res) => {
     const allData = await Teacher.find();
     res.status(200).send(allData);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -133,7 +133,7 @@ const editData = async (req, res) => {
       }
     );
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -155,7 +155,7 @@ const deleteCourseThatinStudent = async (req, res) => {
 
     res.status(200).send("done delete");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 const deleteOneData = async (req, res) => {
@@ -167,7 +167,7 @@ const deleteOneData = async (req, res) => {
     const user = await Student.findByIdAndDelete(_id);
     res.status(200).send(" Delete data is success ! ");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 const deleteAllData = async (req, res) => {
@@ -176,7 +176,7 @@ const deleteAllData = async (req, res) => {
 
     res.status(200).send(" Delete All data is success ! ");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 const blockUser = async (req, res) => {
@@ -189,7 +189,7 @@ const blockUser = async (req, res) => {
 
     res.status(200).send(" Blocked user is success ! ");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 const unBlockUser = async (req, res) => {
@@ -201,7 +201,7 @@ const unBlockUser = async (req, res) => {
     await Student.findByIdAndUpdate(_id, { isBlocked: false }, { new: true });
     res.status(200).send(" UnBlocked user is success ! ");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 const changePassword = async (req, res) => {
@@ -230,7 +230,7 @@ const loginOut = async (req, res) => {
       .status(200)
       .send("login out is success.");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -279,7 +279,7 @@ const forgetPassword = async (req, res) => {
 
     res.status(200).send(" check your email to reset password !");
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -300,7 +300,7 @@ const resetPassword = async (req, res) => {
     console.log(user);
     res.status(200).send("PASSWORD IS CHANGED !!");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -311,7 +311,7 @@ const getAllStudent = async (req, res) => {
 
     res.status(200).json(allDataStudent);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -325,7 +325,7 @@ const getStudent = async (req, res) => {
 
     res.status(200).send(user);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -343,7 +343,7 @@ const unAccessUser = async (req, res) => {
 
     res.status(200).send(" unaccess user is success ! ");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -361,7 +361,7 @@ const accessUser = async (req, res) => {
 
     res.status(200).send(" access user is success ! ");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
