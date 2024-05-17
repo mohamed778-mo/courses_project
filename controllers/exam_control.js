@@ -27,7 +27,7 @@ const createExam = async (req, res) => {
     newExam.save();
     res.status(200).send(newExam);
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -77,7 +77,7 @@ if(!req.file)
     data.save();
     
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 
@@ -93,7 +93,7 @@ const deleteQuestion = async (req, res) => {
 
     res.status(200).send(" deleted !!");
   } catch (e) {
-    res.status(500).send(e.message);
+    res.status(500).send("Server Error");
   }
 };
 const getExam = async (req, res) => {
@@ -202,7 +202,7 @@ const getExamForStudent=async(req,res,next)=>{
       
       res.status(200).send({Questions:quiz.Questions ,start:quiz.start,end:quiz.end})
         
-          }catch(e){res.status(500).send(e.message)}
+          }catch(e){res.status(500).send("Server Error")}
 }
 
 const sumbit =async(req,res)=>{
@@ -220,7 +220,7 @@ try{
   await newResult.save()
   res.json(newResult.result)
   }catch(e){
-  res.status(500).send(e.message)
+  res.status(500).send("Server Error")
         }
  }
 
@@ -277,7 +277,7 @@ try {
     const Teacher_Name=allData.Teacher_Name
       res.status(200).json({title:`${title}`,total_mark:`${total_mark}`,Teacher_Name:`${Teacher_Name}`,exam_id:`${allData._id}`});
     } catch (e) {
-      res.status(500).send(e.message);
+      res.status(500).send("Server Error");
     }
   };
 
