@@ -19,7 +19,7 @@ const auth = async (req, res, next) => {
     if (!result) {
       return res.status(400).send(" please signup or login !");
     }
-
+console.log(result.payload.id)
     const user_1 = await Student.findById(result.payload.id);
     req.user = user_1;
 
