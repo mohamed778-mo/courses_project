@@ -21,6 +21,19 @@ const Register = async(req,res)=>{
 
         const newUser = new Student(user)
         await newUser.save() 
+
+         const SECRETKEY = process.env.SECRETKEY
+         const token = await jwt.sign({id:newUser._id},SECRETKEY)
+         res.cookie("access_token",`Bearer ${token}`,{
+         expires:new Date(Date.now()+60*60*24*1024*300),
+            httpOnly : true
+         })
+         
+         newUser.tokens.push(token)
+         newUser.save()
+
+
+        
         const Message = `${process.env.BASE_URL}/app/student/verfiy/${newUser._id}`
         
         const transporter = nodemailer.createTransport({
