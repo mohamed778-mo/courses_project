@@ -14,6 +14,11 @@ const Register = async(req,res)=>{
         if(dublicatedEmail){
             return res.status(400).send('Email already exist!!')
         }        
+        const dublicatedPhone = await Student.findOne({mobile:user.mobile})
+        if(dublicatedPhone){
+            return res.status(400).send('mobile already exist!!')
+        }       
+
         const newUser = new Student(user)
         await newUser.save() 
         const Message = `${process.env.BASE_URL}/app/student/verfiy/${newUser._id}`
