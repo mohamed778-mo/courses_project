@@ -25,6 +25,7 @@
     "fs": "^0.0.1-security",
     "google-auth-library": "^9.6.3",
     "googleapis": "^133.0.0",
+    "https": "^1.0.0",
     "inspect": "^0.0.2",
     "jsonwebtoken": "^9.0.2",
     "mocha": "^10.3.0",
