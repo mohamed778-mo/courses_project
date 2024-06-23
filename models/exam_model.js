@@ -29,6 +29,10 @@ var examSchema = new mongoose.Schema({
     Teacher_Id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Teacher"
+    } ,
+     Course_Id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Courses"
     }
     ,
     Questions:[
@@ -50,18 +54,21 @@ var examSchema = new mongoose.Schema({
         }, 
         role:{
             type:String,
-            enum:['choice','bolean']
+            enum:['choice','boolean']
         },
         correctChoice:{
             type:String
         },
-        correctBolean:{
+        correctBoolean:{
             type:String
                 },
 
     }]
     ,
-  
+  results_available:{
+    type:Boolean,
+    default:false
+  }
 
 });
 

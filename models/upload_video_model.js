@@ -25,6 +25,12 @@ var videoSchema = new mongoose.Schema({
     CourseName:{  
         type:String
     },
+    type:{
+        type:String,
+        enum:["free","paid"],
+       
+    },
+
     codes: {
         type: [String],
         default: []

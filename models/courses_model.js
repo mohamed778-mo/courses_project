@@ -80,6 +80,11 @@ var coursesSchema = new mongoose.Schema({
                 type:String
         
             },
+            type:{
+                type:String,
+                enum:["free","paid"],
+               
+            },
         }
     ],
     codes: {
