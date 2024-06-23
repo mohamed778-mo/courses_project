@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+
 const {createCourse,getDetailsCourse,getCourse,getMyCourses,editData,deleteOneData,deleteAllData,getStudentCourses,buycourse,getpaidcourses,deleteCourseThatinStudent,createCode,getCodes,getusedCodes}=require("../controllers/courses_control")
 const {adminAuth,auth }=require("../middleware/auth")
 
