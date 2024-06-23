@@ -68,18 +68,19 @@ const postvideofromviemotoDB = async(req,res)=>{
   const client = new Vimeo(client_id, client_secret , token);
 
   const videoId = req.body.videoId;
-
+  
 client.request({
  method: 'GET',
  path: `/videos/${videoId}`
 },
 async (error, body) => {
  if (error) {
-   console.error('حدث خطأ أثناء ايجاد بيانات الفيديو:', error);
-   return;
+   return res.send('error in "videoId" !! ');
+
  }
 
-
+const type = req.body.type
+const description = req.body.description
 const course_id = req.params.course_id
 
  const course = await Courses.findById(course_id);
@@ -90,11 +91,12 @@ const course_id = req.params.course_id
  const newvideo = new Video({
    name: body.name,
    videoURL: body.player_embed_url,
-   description: body.description,
+   description: description,
    Teacher: req.user._id,
    course: course_id,
    CourseName: course.subject,
    TeacherName: req.user.FirstName + req.user.LastName,
+   type:type
  });
 
  newvideo.save();
@@ -110,6 +112,7 @@ const course_id = req.params.course_id
      course: newvideo.course,
      CourseName: course.subject,
      TeacherName: req.user.FirstName + req.user.LastName,
+     type:newvideo.type
    });
 
    course.save();
@@ -118,7 +121,7 @@ res.status(200).send(newvideo)
 
 
 })
-}catch(e){res.status(500).send("Server Error")}
+}catch(e){res.status(500).send(e.message)}
 };
 
 const getVideoinCourse = async (req, res) => {
@@ -128,7 +131,7 @@ const getVideoinCourse = async (req, res) => {
     const dataVideos = data.videoslist;
     res.status(200).send(dataVideos);
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 const deletevideo = async (req, res) => {
@@ -146,9 +149,11 @@ const deletevideo = async (req, res) => {
     await Courses.updateOne({"_id":course_id},{"$pull":{"videoslist":{"id":video_id}}})
     res.status(200).send({ message: "done deleted" });
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
+
+
 const createCode = async (req,res)=>{
   try{
   const code_1 = crypto.randomBytes(4).toString("hex")
@@ -157,9 +162,10 @@ const createCode = async (req,res)=>{
   data.codes.push(code_1)
   data.save()
   res.status(200).send({ NewCode:code_1 ,  AllCodes : "data is created" })
-}catch(e){res.status(500).send("Server Error")}
+}catch(e){res.status(500).send(e.message)}
 }
-const getCodes =async(req,res)=>{
+  
+  const getCodes =async(req,res)=>{
   const teacher_id=req.user._id
   if(!mongoose.Types.ObjectId.isValid(teacher_id)){
       return res.status(404).send('your ID is not correct!!')
@@ -196,12 +202,15 @@ const buyVideo=async(req,res)=>{
         if (!video) {
           return res.status(404).send({ error: 'Video not found.' });
         }
+
+        if(video.type == "paid"){
+
         const idObject = new mongoose.Types.ObjectId(video_id);
         const courseExists = data_s.myVideos.some(video => video._id.equals(idObject));
   
-if(courseExists){
-  return res.status(200).send(video.videoURL);
-}
+        if(courseExists){
+            return res.status(200).send(video.videoURL);
+          }
 
 
   
@@ -210,7 +219,7 @@ if(courseExists){
         const check = await Video.findOne( {codes:code}  )
         if ( ! check  )   {
   
-     return  res.status(400).send({ error: 'Invalid code.' })
+        return  res.status(400).send({ error: 'Invalid code.' })
         }
   
         const usedCodes=await Video.findOne({usedCodes:code})
@@ -234,8 +243,13 @@ if(courseExists){
   
   
          res.status(200).json({videoURL:video.videoURL})
-  
-  }catch(e){res.status(500).send("Server Error")}
+        }
+if(video.type == "free"){
+  res.status(200).json({videoURL:video.videoURL})
+}
+
+
+  }catch(e){res.status(500).send(e.message)}
   
   }
 
@@ -247,7 +261,7 @@ if(courseExists){
      }     
      const videos = data_s.myVideos
      res.status(200).json(videos)
- }catch(e){res.status(500).send("Server Error")}
+ }catch(e){res.status(500).send(e.message)}
  
  }
 

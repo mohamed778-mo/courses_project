@@ -29,7 +29,7 @@ const createCourse = async (req, res) => {
 
     res.status(200).send(newCourse);
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailsCourse = async (req, res) => {
  
     res.status(200).send(data);
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -64,7 +64,7 @@ const getCourse = async (req, res) => {
     const course = data.myCourses;
     res.status(200).send(course);
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -78,7 +78,7 @@ const getMyCourses = async (req, res) => {
 
     res.status(200).send(courses);
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -100,7 +100,7 @@ const getStudentCourses = async (req, res) => {
     });
     res.status(200).send(sentData);
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -198,7 +198,7 @@ const getpaidcourses = async (req, res) => {
       res.status(200).send(courses);
     });
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -218,7 +218,7 @@ const editData = async (req, res) => {
 
     res.status(200).send("Update data is success ");
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -231,7 +231,7 @@ const deleteOneData = async (req, res) => {
     const course = await Courses.findByIdAndDelete(_id);
     res.status(200).send(" Delete data is success ! ");
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -241,7 +241,7 @@ const deleteAllData = async (req, res) => {
 
     res.status(200).send(" Delete All data is success ! ");
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
@@ -267,7 +267,7 @@ const deleteCourseThatinStudent = async (req, res) => {
 
     res.status(200).send();
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 const createCode =async(req,res)=>{
@@ -279,7 +279,7 @@ const createCode =async(req,res)=>{
   data.codes.push(code_1)
   data.save()
   res.status(200).send({ NewCode:code_1 ,  AllCodes :data.codes })
-}catch(e){res.status(500).send("Server Error")}
+}catch(e){res.status(500).send(e.message)}
 }
 const getCodes =async(req,res)=>{
   const teacher_id=req.user._id
