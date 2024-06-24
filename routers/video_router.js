@@ -1,8 +1,8 @@
 const express = require("express")
 const storage = require("../middleware/multer_upload")
 const router=express.Router()
-const {uploadVideo,getVideoinCourse,deletevideo,createCode,getCodes,getusedCodes,buyVideo,getvideosstudent,postvideofromviemotoDB}=require('../controllers/video_control')
-const {adminAuth,auth}=require("../middleware/auth")
+const {uploadVideo,getVideoinCourse,deletevideo,createCode,getCodes,getusedCodes,postvideofromviemotoDB}=require('../controllers/video_control')
+const {adminAuth}=require("../middleware/auth")
 
 
 router.post('/upload/:course_id',adminAuth,storage.single('file'),uploadVideo)
@@ -14,9 +14,6 @@ router.get('/getusedcodes/:video_id',adminAuth,getusedCodes)
 router.put('/download-video/:course_id',adminAuth,postvideofromviemotoDB)
 
 
-router.post('/buyvideo/:video_id',auth,buyVideo)
-router.get('/getvideo/:course_id',auth,getVideoinCourse)
-router.get('/getvideos',auth,getvideosstudent)
 
 
 
