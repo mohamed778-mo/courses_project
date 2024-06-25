@@ -21,7 +21,7 @@ const add_question = async (req, res) => {
       year,
       lec
     });
-    newQuestion.save()
+   await newQuestion.save()
     res.status(200).send(newQuestion);
   } catch (e) {
     res.status(500).send(e.message);
