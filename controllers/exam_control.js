@@ -6,6 +6,11 @@ const Result = require("../models/results_model");
 const ExamAnswer = require("../models/answer_student_model")
 const admin = require('firebase-admin');
 const fs = require('fs');
+require('dotenv').config();
+
+
+const serviceAccount =JSON.parse(process.env.SERVER)
+
 
 
 
@@ -44,10 +49,10 @@ const createExam = async (req, res) => {
 
         const file = req.files.find(f => f.fieldname === `questions[${i}].imgFile`);
         if (file) {
-          const serviceAccount = require('../coursesapp-d07a1-firebase-adminsdk-2zc4m-646e31b1b6.json');
+          
           admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
-            storageBucket: 'gs://coursesapp-d07a1.appspot.com'
+            storageBucket: process.env.STORAGE_BUCKET
           });
 
           const bucket = admin.storage().bucket();

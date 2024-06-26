@@ -1,6 +1,9 @@
 const Question = require('../models/questions_bank_model');  
 const admin = require('firebase-admin');
 const fs = require('fs');
+require('dotenv').config();
+
+const serviceAccount =JSON.parse(process.env.SERVER)
 
 
 const add_question = async (req, res) => {
@@ -14,10 +17,9 @@ const add_question = async (req, res) => {
           return res.status(400).send('No file uploaded.');
         }
       
-        const serviceAccount = require('../coursesapp-d07a1-firebase-adminsdk-2zc4m-646e31b1b6.json');
           admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
-            storageBucket: 'gs://coursesapp-d07a1.appspot.com'
+            storageBucket: process.env.STORAGE_BUCKET
           });
 
           const bucket = admin.storage().bucket();
@@ -159,11 +161,11 @@ const edit_question = async (req, res) => {
             return res.status(400).send('No file uploaded.');
           }
         
-          const serviceAccount = require('../coursesapp-d07a1-firebase-adminsdk-2zc4m-646e31b1b6.json'); 
+          
         
           admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
-            storageBucket: 'gs://coursesapp-d07a1.appspot.com'
+            storageBucket: process.env.STORAGE_BUCKET
           });
           
           const bucket = admin.storage().bucket();

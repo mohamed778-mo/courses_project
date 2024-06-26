@@ -2,6 +2,11 @@ const admin = require('firebase-admin');
 const fs = require('fs');
 const Courses = require("../models/courses_model");
 const Uploads = require("../models/uploads_model")
+require('dotenv').config();
+
+const serviceAccount =JSON.parse(process.env.SERVER)
+
+
 
 const upload_pdf =async (req, res) => {
     try{
@@ -11,11 +16,11 @@ const upload_pdf =async (req, res) => {
       return res.status(400).send('No file uploaded.');
     }
 
-    const serviceAccount = require('../coursesapp-d07a1-firebase-adminsdk-2zc4m-646e31b1b6.json'); 
+    
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      storageBucket: 'gs://coursesapp-d07a1.appspot.com'
+      storageBucket: process.env.STORAGE_BUCKET
     });
     
     const bucket = admin.storage().bucket();
