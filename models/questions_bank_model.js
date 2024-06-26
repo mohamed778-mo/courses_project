@@ -7,7 +7,7 @@ const questionSchema = new mongoose.Schema({
   },
   img: {
     type: String,
-    default: 'empty'
+  
   },
   answer_1: {
     type: String,
@@ -36,11 +36,11 @@ const questionSchema = new mongoose.Schema({
   },
   correctChoice: {
     type: String,
-    required: function() { return this.role === 'choice'; }
+  
   },
   correctBoolean: {
     type: String,
-    required: function() { return this.role === 'boolean'; }
+    
   }
 ,
   year: {

@@ -3,19 +3,15 @@ const mongoose = require('mongoose');
 var examSchema = new mongoose.Schema({
     title:{
         type:String,
-        required:true
     },
     subject:{
-        type:String,
-        required:true
+        type:String
     },
     level:{
-        type:String,
-        required:true
+        type:String
     },
     departement:{
-        type:String,
-        required:true
+        type:String
     },
     total_mark:{
         type:Number
