@@ -2175,7 +2175,7 @@
         }
       }
     },
-    "/app/pdf/upload_pdf/{course_id}": {
+    "/app/pdf/teacher/upload_pdf/{course_id}": {
       "post": {
         "description": "",
         "parameters": [
@@ -2223,7 +2223,7 @@
         }
       }
     },
-    "/app/pdf/get_pdf/{pdf_id}": {
+    "/app/pdf/both/get_pdf/{pdf_id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -2244,7 +2244,7 @@
         }
       }
     },
-    "/app/pdf/delete_pdf/{pdf_id}": {
+    "/app/pdf/teacher/delete_pdf/{pdf_id}": {
       "delete": {
         "description": "",
         "parameters": [
@@ -2265,7 +2265,7 @@
         }
       }
     },
-    "/app/pdf/get_pdfs/{course_id}": {
+    "/app/pdf/both/get_pdfs/{course_id}": {
       "get": {
         "description": "",
         "parameters": [
