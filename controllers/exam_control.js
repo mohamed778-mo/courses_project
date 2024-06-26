@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const Courses = require("../models/courses_model");
 const Student = require("../models/student_model");
-const Teacher = require("../models/teacher_model");
 const Exam = require("../models/exam_model");
 const Result = require("../models/results_model");
-const Question = require("../models/questions_bank_model")
 const ExamAnswer = require("../models/answer_student_model")
+const admin = require('firebase-admin');
+const fs = require('fs');
 
 
 
@@ -15,79 +15,109 @@ const createExam = async (req, res) => {
     if (!T_id) {
       return res.status(404).send("Please login!!");
     }
-    const course_id=req.params.course_id
+
+    const course_id = req.params.course_id;
     const newExam = new Exam({
       title: req.body.title,
       subject: req.body.subject,
       level: req.body.level,
-      departement: req.body.departement,
+      department: req.body.department,
       total_mark: req.body.total_mark,
-      Teacher_Name: req.user.FirstName + ' ' + req.user.LastName,
+      Teacher_Name: `${req.user.FirstName} ${req.user.LastName}`,
       Teacher_Id: req.user._id,
       start: req.body.start,
       end: req.body.end,
-      Course_Id:course_id
+      Course_Id: course_id
     });
 
-    await newExam.save();  
+    await newExam.save();
 
     const exam_id = newExam._id;
     const data = await Exam.findById(exam_id);
 
-    const questions= req.body.questions
-  
+    const questions = JSON.parse(req.body.questions);
+
     if (Array.isArray(questions) && questions.length > 0) {
-      questions.forEach((Question) => {
-        let newQuestion = {
-          question: Question.question,
-          img: req.file ? `http://https://courses-project-iu0w.onrender.com/uploads/${req.file.filename}` : 'empty',
-          answer_1: Question.answer_1,
-          answer_2: Question.answer_2,
-          answer_3: Question.answer_3,
-          answer_4: Question.answer_4,
-          mark: Question.mark,
-          role: Question.role,
-          correctBoolean: Question.correctBoolean,
-         correctChoice: Question.correctChoice,
-        };
-        data.Questions.push(newQuestion);
-      });
+      for (let i = 0; i < questions.length; i++) {
+        const Question = questions[i];
+        let newQuestion;
+
+        const file = req.files.find(f => f.fieldname === `questions[${i}].imgFile`);
+        if (file) {
+          const serviceAccount = require('../coursesapp-d07a1-firebase-adminsdk-2zc4m-646e31b1b6.json');
+          admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+            storageBucket: 'gs://coursesapp-d07a1.appspot.com'
+          });
+
+          const bucket = admin.storage().bucket();
+          const blob = bucket.file(file.filename);
+          const blobStream = blob.createWriteStream({
+            metadata: {
+              contentType: file.mimetype
+            }
+          });
+
+          await new Promise((resolve, reject) => {
+            blobStream.on('error', (err) => {
+              reject(err);
+            });
+
+            blobStream.on('finish', async () => {
+              try {
+                await blob.makePublic();
+                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                fs.unlinkSync(file.path);
+                newQuestion = {
+                  question: Question.question,
+                  img: publicUrl,
+                  answer_1: Question.answer_1,
+                  answer_2: Question.answer_2,
+                  answer_3: Question.answer_3,
+                  answer_4: Question.answer_4,
+                  mark: Question.mark,
+                  role: Question.role,
+                  correctBoolean: Question.correctBoolean,
+                  correctChoice: Question.correctChoice,
+                };
+                data.Questions.push(newQuestion);
+                resolve();
+              } catch (err) {
+                reject(err);
+              }
+            });
+
+            fs.createReadStream(file.path).pipe(blobStream);
+          });
+       
+       
+       
+        } else {
+          newQuestion = {
+            question: Question.question,
+            img: 'empty',
+            answer_1: Question.answer_1,
+            answer_2: Question.answer_2,
+            answer_3: Question.answer_3,
+            answer_4: Question.answer_4,
+            mark: Question.mark,
+            role: Question.role,
+            correctBoolean: Question.correctBoolean,
+            correctChoice: Question.correctChoice,
+          };
+          data.Questions.push(newQuestion);
+        }
+      }
     }
 
-    const selectedQuestionIds= req.body.selectedQuestionIds
-    
-    if (Array.isArray(selectedQuestionIds) && selectedQuestionIds.length > 0) {
-      const selectedQuestions = await Question.find({_id:{$in:selectedQuestionIds}})
-      selectedQuestions.forEach((question) => {
-        
-        let newQuestionSelected = {
-          question: question.question,
-          img: req.file ? `http://https://courses-project-iu0w.onrender.com/uploads/${req.file.filename}` : 'empty',
-          answer_1: question.answer_1,
-          answer_2: question.answer_2,
-          answer_3: question.answer_3,
-          answer_4: question.answer_4,
-          mark: question.mark,
-          role: question.role,
-          correctBoolean: question.correctBoolean,
-          correctChoice: question.correctChoice,
-        };
-     
-        data.Questions.push(newQuestionSelected);
-      });
-    }
 
     await data.save();
-
-
-
     res.status(200).send({ exam: newExam, questions: data.Questions });
 
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
-
 
 
 const deleteQuestion = async (req, res) => {
@@ -105,7 +135,10 @@ const deleteQuestion = async (req, res) => {
     res.status(500).send(e.message);
   }
 };
+
 const getExam = async (req, res) => {
+  
+  
   try {
     const { id: _id } = req.params;
     const check = await Exam.findById(_id);
@@ -198,12 +231,12 @@ const getQUIZ=async(req,res)=>{
          }      
         const quizS= new Date(quiz.start)
   
-        const quizStart= new Date(quizS)
+        const quizStart= new Date(quizS.getTime()+Milliseconds)
   
   
         const quizE= new Date(quiz.end)
 
-        const quizEnd= new Date(quizE)
+        const quizEnd= new Date(quizE.getTime()+Milliseconds)
   
  
       
@@ -381,21 +414,28 @@ try {
     const Milliseconds = 3 * 60 * 60 * 1000
     const nowInEgypt = new Date(nowUTC.getTime() + Milliseconds)
 
-
+console.log(nowInEgypt)
     const examsNotStarted = [];
     const examsEnded = [];
     const examsOngoing = [];
 
     allData.forEach((exam) => {
-    
-      if (new Date(exam.start) >= nowInEgypt && nowInEgypt <= new Date(exam.end) ) {
+      const start_D = new Date(exam.start)
+      const D_S = new Date(start_D.getTime()+Milliseconds)
+    console.log(D_S)
+    const end_D = new Date(exam.end)
+    const D_E = new Date(end_D.getTime()+Milliseconds)
+
+    if (D_S >= nowInEgypt && nowInEgypt <= D_E ) {
+
         examsNotStarted.push(exam);
-      } else if (nowInEgypt >= new Date(exam.start) && nowInEgypt >= new Date(exam.end) ) {
+      } else if (nowInEgypt >= D_S && nowInEgypt >= D_E ) {
         examsEnded.push(exam);
-      } else if (nowInEgypt >= new Date(exam.start) && nowInEgypt <= new Date(exam.end) ) {
+      } else if (nowInEgypt >= D_S && nowInEgypt <= D_E ) {
         examsOngoing.push(exam);
       }
     });
+
 
     res.status(200).json({examsNotStarted:examsNotStarted  , examsEnded:examsEnded ,examsOngoing: examsOngoing,
     });
