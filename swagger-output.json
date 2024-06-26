@@ -1095,7 +1095,7 @@
                 "level": {
                   "example": "any"
                 },
-                "departement": {
+                "department": {
                   "example": "any"
                 },
                 "total_mark": {
@@ -1108,9 +1108,6 @@
                   "example": "any"
                 },
                 "questions": {
-                  "example": "any"
-                },
-                "selectedQuestionIds": {
                   "example": "any"
                 }
               }
@@ -1408,6 +1405,9 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -1427,12 +1427,33 @@
         }
       }
     },
-    "/app/questionbank/edit_question/{id}": {
+    "/app/questionbank/get_question/{question_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/questionbank/edit_question/{question_id}": {
       "put": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "question_id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -1469,6 +1490,12 @@
                 },
                 "correctChoice": {
                   "example": "any"
+                },
+                "year": {
+                  "example": "any"
+                },
+                "lec": {
+                  "example": "any"
                 }
               }
             }
@@ -1477,6 +1504,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -1487,12 +1517,12 @@
         }
       }
     },
-    "/app/questionbank/delete_question/{id}": {
+    "/app/questionbank/delete_question/{question_id}": {
       "delete": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "question_id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -2138,6 +2168,117 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/pdf/upload_pdf/{course_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "year": {
+                  "example": "any"
+                },
+                "lec": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/pdf/get_pdf/{pdf_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "pdf_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/pdf/delete_pdf/{pdf_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "pdf_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/pdf/get_pdfs/{course_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"

@@ -28,7 +28,7 @@ const course_student = require('./routers/courses_student_router')
 const video_student =require('./routers/video_student_router')
 const exam_student =require('./routers/exam_student_router')
 
-
+const pdf_upload = require('./routers/uploads_router')
 
 // const blogStudentRouter = require('./routers/blog_student_router');
 // const blogTeacherRouter = require('./routers/blog_teacher_router');
@@ -45,6 +45,7 @@ app.use('/app/student/course', course_student);
 app.use('/app/student/exam', exam_student);
 app.use('/app/student/video', video_student);
 
+app.use('/app/pdf', pdf_upload);
 
 // app.use('/app/blog/student', blogStudentRouter);
 // app.use('/app/blog/teacher', blogTeacherRouter);
