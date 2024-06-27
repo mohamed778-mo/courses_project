@@ -12,7 +12,7 @@ require('dotenv').config();
 const serviceAccount =JSON.parse(process.env.SERVER)
 
 
-
+console.log(serviceAccount)
 
 const createExam = async (req, res) => {
   try {
@@ -22,7 +22,7 @@ const createExam = async (req, res) => {
     }
 
     const course_id = req.params.course_id;
-    console.log(course_id)
+  
     const newExam = new Exam({
       title: req.body.title,
       subject: req.body.subject,
