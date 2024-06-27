@@ -3,9 +3,7 @@ const path = require('path')
 
 const Istorage = multer.diskStorage({
 
-    destination:(req,file,cb)=>{
-        cb(null)
-    },
+    
     
     filename:(req,file,cb)=>{
         var extention = path.extname(file.originalname)
