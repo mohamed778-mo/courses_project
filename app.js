@@ -51,7 +51,6 @@ app.use('/app/pdf', pdf_upload);
 // app.use('/app/blog/teacher', blogTeacherRouter);
 // app.use('/app/blog/course', blogCourseRouter);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
