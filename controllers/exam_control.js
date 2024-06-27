@@ -22,6 +22,7 @@ const createExam = async (req, res) => {
     }
 
     const course_id = req.params.course_id;
+    console.log(course_id)
     const newExam = new Exam({
       title: req.body.title,
       subject: req.body.subject,
