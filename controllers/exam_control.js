@@ -12,7 +12,6 @@ require('dotenv').config();
 const serviceAccount =JSON.parse(process.env.SERVER)
 
 
-console.log(serviceAccount)
 
 const createExam = async (req, res) => {
   try {
