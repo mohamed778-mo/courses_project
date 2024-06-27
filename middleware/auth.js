@@ -19,7 +19,7 @@ const auth = async (req, res, next) => {
     if (!result) {
       return res.status(400).send(" please signup or login !");
     }
-console.log(result.payload.id)
+
     const user_1 = await Student.findById(result.payload.id);
     req.user = user_1;
 
@@ -39,7 +39,7 @@ const adminAuth = async (req, res, Next) => {
     if (!token) {
       return res.status(401).send(" please login !");
     }
-console.log(token)
+
     const SECRETKEY = process.env.SECRETKEY;
 
     const result = await jwt.verify(token, SECRETKEY, { complete: true });
@@ -50,7 +50,7 @@ console.log(token)
 
     const user_1 = await Teacher.findById(result.payload.id);
     req.user = user_1;
-console.log(req.user)
+
     if (!user_1.isAdmin) {
       return res.send(" Available for ADMIN ");
     } else {
