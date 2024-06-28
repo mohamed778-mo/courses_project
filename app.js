@@ -20,6 +20,7 @@ app.use(cors());
 const teacherRouter = require('./routers/teacher_router');
 const courseRouter = require('./routers/courses_router');
 const uploadVideoRouter = require('./routers/video_router');
+
 const examRouter = require('./routers/exam_router');
 const QbankRouter = require('./routers/questions_bank_route');
 
@@ -37,11 +38,23 @@ const pdf_upload = require('./routers/uploads_router')
 app.use('/app/teacher', teacherRouter);
 app.use('/app/course', courseRouter);
 app.use('/app/video', uploadVideoRouter);
+/**
+ * @swagger
+ * tags:
+ *   name: Exams
+ */
+
 app.use('/app/teacher/exam', examRouter);
 app.use('/app/questionbank', QbankRouter);
 
 app.use('/app/student', studentRouter);
 app.use('/app/student/course', course_student);
+/**
+ * @swagger
+ * tags:
+ *   name: Exams
+ */
+
 app.use('/app/student/exam', exam_student);
 app.use('/app/student/video', video_student);
 
