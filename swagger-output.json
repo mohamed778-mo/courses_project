@@ -5,12 +5,13 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "https://courses-project-iu0w.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
+    
     "/app/teacher/register": {
       "post": {
         "description": "",
