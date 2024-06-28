@@ -7,6 +7,12 @@ const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 require("dotenv").config();
+/**
+ * @swagger
+ * tags:
+ *   name: Teacher-User
+ */
+
 
 const Register = async (req, res) => {
   try {
