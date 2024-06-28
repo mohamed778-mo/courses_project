@@ -3,6 +3,11 @@ const router  = express.Router()
 const {Register,VerifiyEmail,Login,getUser,getAllUser,accessUser,unAccessUser,deleteCourseThatinStudent,editData,deleteOneData,deleteAllData,blockUser,unBlockUser,changePassword,loginOut,forgetPassword,resetPassword,getAllStudent}=require("../controllers/teacher_control")
 const { adminAuth }=require("../middleware/auth")
 
+/**
+ * @swagger
+ * tags:
+ *   name: Teacher-User
+ */
 
 router.post('/register',Register)
 router.get('/verfiy/:id',VerifiyEmail)
