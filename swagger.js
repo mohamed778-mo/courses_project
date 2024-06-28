@@ -5,8 +5,8 @@ const doc = {
         title: 'Courses_API',
         description: 'Description'
     },
-    host: 'localhost:3000',
-    schemes: ['http']
+    host: 'courses-project-iu0w.onrender.com/',
+    schemes: ['https']
 };
 
 const outputFile = './swagger-output.json';
