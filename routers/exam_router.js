@@ -6,6 +6,12 @@ const {createExam,deleteQuestion,getExam, deleteExam, getquestions,getAllResults
 const {adminAuth}=require("../middleware/auth")
 const storage = require("../middleware/multer_upload")
 
+/**
+ * @swagger
+ * tags:
+ *   name: Exams
+ */
+
 router.post('/add_exam/:course_id', adminAuth, storage.any(), createExam);
 router.delete('/delete_question/:exam_id/:question_id',adminAuth,deleteQuestion)
 router.delete('/delete_exam/:exam_id',adminAuth,deleteExam)
