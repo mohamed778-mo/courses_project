@@ -21,7 +21,7 @@ const createExam = async (req, res) => {
     }
 
     const course_id = req.params.course_id;
-  
+
     const newExam = new Exam({
       title: req.body.title,
       subject: req.body.subject,
@@ -47,24 +47,9 @@ const createExam = async (req, res) => {
         const Question = questions[i];
         let newQuestion;
 
-        const file = req.files.find(f => f.fieldname === `questions[${i}].imgFile`);
+        const file = req.files ? req.files.find(f => f.fieldname === `questions[${i}].imgFile`) : undefined;
+        
         if (file) {
-            if(file === undefined ){
-          newQuestion = {
-            question: Question.question,
-            img: 'empty',
-            answer_1: Question.answer_1,
-            answer_2: Question.answer_2,
-            answer_3: Question.answer_3,
-            answer_4: Question.answer_4,
-            mark: Question.mark,
-            role: Question.role,
-            correctBoolean: Question.correctBoolean,
-            correctChoice: Question.correctChoice,
-          };
-          data.Questions.push(newQuestion);
-        }
-          else{
           if (!admin.apps.length) {
             admin.initializeApp({
               credential: admin.credential.cert(serviceAccount),
@@ -111,10 +96,7 @@ const createExam = async (req, res) => {
 
             fs.createReadStream(file.path).pipe(blobStream);
           });
-       
-       
-          }
-          else{
+        } else {
           newQuestion = {
             question: Question.question,
             img: 'empty',
@@ -127,12 +109,10 @@ const createExam = async (req, res) => {
             correctBoolean: Question.correctBoolean,
             correctChoice: Question.correctChoice,
           };
-          data.Questions.push(newQuestion);}
-        } 
-      
+          data.Questions.push(newQuestion);
+        }
       }
     }
-
 
     await data.save();
     res.status(200).send({ exam: newExam, questions: data.Questions });
