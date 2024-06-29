@@ -49,11 +49,12 @@ const createExam = async (req, res) => {
 
         const file = req.files.find(f => f.fieldname === `questions[${i}].imgFile`);
         if (file) {
-          
-          admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-            storageBucket: process.env.STORAGE_BUCKET
-          });
+          if (!admin.apps.length) {
+            admin.initializeApp({
+              credential: admin.credential.cert(serviceAccount),
+              storageBucket: process.env.STORAGE_BUCKET
+            });
+          }
 
           const bucket = admin.storage().bucket();
           const blob = bucket.file(file.filename);
