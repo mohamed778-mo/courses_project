@@ -99,7 +99,7 @@ const createExam = async (req, res) => {
        
        
         } 
-        if(req.files.find(f => f.fieldname === 'undefined')){
+        if(req.files.find(f => f.fieldname ===`questions[${i}].imgFile` === 'undefined')){
           newQuestion = {
             question: Question.question,
             img: 'empty',
