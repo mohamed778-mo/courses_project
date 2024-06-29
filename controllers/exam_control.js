@@ -49,6 +49,22 @@ const createExam = async (req, res) => {
 
         const file = req.files.find(f => f.fieldname === `questions[${i}].imgFile`);
         if (file) {
+            if(`questions[${i}].imgFile` === 'undefined')){
+          newQuestion = {
+            question: Question.question,
+            img: 'empty',
+            answer_1: Question.answer_1,
+            answer_2: Question.answer_2,
+            answer_3: Question.answer_3,
+            answer_4: Question.answer_4,
+            mark: Question.mark,
+            role: Question.role,
+            correctBoolean: Question.correctBoolean,
+            correctChoice: Question.correctChoice,
+          };
+          data.Questions.push(newQuestion);
+        }
+          else{
           if (!admin.apps.length) {
             admin.initializeApp({
               credential: admin.credential.cert(serviceAccount),
@@ -97,23 +113,9 @@ const createExam = async (req, res) => {
           });
        
        
-       
+          }
         } 
-        if(req.files.find(f => f.fieldname ===`questions[${i}].imgFile` === 'undefined')){
-          newQuestion = {
-            question: Question.question,
-            img: 'empty',
-            answer_1: Question.answer_1,
-            answer_2: Question.answer_2,
-            answer_3: Question.answer_3,
-            answer_4: Question.answer_4,
-            mark: Question.mark,
-            role: Question.role,
-            correctBoolean: Question.correctBoolean,
-            correctChoice: Question.correctChoice,
-          };
-          data.Questions.push(newQuestion);
-        }
+      
       }
     }
 
