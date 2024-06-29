@@ -17,10 +17,12 @@ const add_question = async (req, res) => {
           return res.status(400).send('No file uploaded.');
         }
       
-          admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-            storageBucket: process.env.STORAGE_BUCKET
-          });
+           if (!admin.apps.length) {
+            admin.initializeApp({
+              credential: admin.credential.cert(serviceAccount),
+              storageBucket: process.env.STORAGE_BUCKET
+            });
+          }
 
           const bucket = admin.storage().bucket();
           const blob = bucket.file(file.filename);
@@ -161,12 +163,12 @@ const edit_question = async (req, res) => {
             return res.status(400).send('No file uploaded.');
           }
         
-          
-        
-          admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-            storageBucket: process.env.STORAGE_BUCKET
-          });
+          if (!admin.apps.length) {
+            admin.initializeApp({
+              credential: admin.credential.cert(serviceAccount),
+              storageBucket: process.env.STORAGE_BUCKET
+            });
+          }
           
           const bucket = admin.storage().bucket();
           const blob = bucket.file(file.filename);
