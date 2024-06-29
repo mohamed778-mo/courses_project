@@ -114,6 +114,20 @@ const createExam = async (req, res) => {
        
        
           }
+          else{
+          newQuestion = {
+            question: Question.question,
+            img: 'empty',
+            answer_1: Question.answer_1,
+            answer_2: Question.answer_2,
+            answer_3: Question.answer_3,
+            answer_4: Question.answer_4,
+            mark: Question.mark,
+            role: Question.role,
+            correctBoolean: Question.correctBoolean,
+            correctChoice: Question.correctChoice,
+          };
+          data.Questions.push(newQuestion);}
         } 
       
       }
