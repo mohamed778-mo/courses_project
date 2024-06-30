@@ -4,7 +4,7 @@ const Student = require("../models/student_model");
 const Exam = require("../models/exam_model");
 const Result = require("../models/results_model");
 const ExamAnswer = require("../models/answer_student_model")
-const Question = require("../models/question_bank_model")
+const Question = require("../models/questions_bank_model")
 const admin = require('firebase-admin');
 const fs = require('fs');
 require('dotenv').config();
