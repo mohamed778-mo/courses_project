@@ -4,6 +4,7 @@ const Student = require("../models/student_model");
 const Exam = require("../models/exam_model");
 const Result = require("../models/results_model");
 const ExamAnswer = require("../models/answer_student_model")
+const Question = require("../models/question_bank_model")
 const admin = require('firebase-admin');
 const fs = require('fs');
 require('dotenv').config();
@@ -113,6 +114,35 @@ const createExam = async (req, res) => {
         }
       }
     }
+    
+    const selected_ids = JSON.parse(req.body.selected_ids)
+   
+    if(Array.isArray(selected_ids) && selected_ids.length > 0 ){
+
+      const selected_questions = await Question.find( { _id :{ $in : selected_ids } } )
+      
+      selected_questions.forEach( (q)=>{
+
+      let new_Question_Selected = {
+          question: q.question,
+          img: q.img,
+          answer_1: q.answer_1,
+          answer_2: q.answer_2,
+          answer_3: q.answer_3,
+          answer_4: q.answer_4,
+          mark: q.mark,
+          role: q.role,
+          correctBoolean: q.correctBoolean,
+          correctChoice: q.correctChoice,
+        };
+        data.Questions.push(new_Question_Selected);
+
+        
+      })
+      
+    }
+
+    
 
     await data.save();
     res.status(200).send({ exam: newExam, questions: data.Questions });
