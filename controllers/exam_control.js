@@ -143,17 +143,12 @@ const getExam = async (req, res) => {
   
   
   try {
-    const { id: _id } = req.params;
-    const check = await Exam.findById(_id);
+    const exam_id = req.params.exam_id
+    const data = await Exam.findById(exam_id);
 
-    if (!check) {
+    if (!data) {
       return res.status(404).send("not found !!");
     }
-
-    const data = await Exam.findById(_id);
-
-
-
 
     res.status(200).send(data);
   } catch (e) {
