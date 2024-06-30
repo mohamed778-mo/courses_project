@@ -28,7 +28,6 @@ const createExam = async (req, res) => {
       subject: req.body.subject,
       level: req.body.level,
       department: req.body.department,
-      total_mark: req.body.total_mark,
       Teacher_Name: `${req.user.FirstName} ${req.user.LastName}`,
       Teacher_Id: req.user._id,
       start: req.body.start,
@@ -508,8 +507,8 @@ const single_create_exam=async(req,res)=>{
       department: req.body.department,
       Teacher_Name: `${req.user.FirstName} ${req.user.LastName}`,
       Teacher_Id: req.user._id,
-      start: 'unlimited',
-      end: 'unlimited',
+      start: req.body.start,
+      end: req.body.end,
       
     });
 
