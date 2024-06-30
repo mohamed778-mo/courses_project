@@ -13,9 +13,6 @@ var examSchema = new mongoose.Schema({
     departement:{
         type:String
     },
-    total_mark:{
-        type:Number
-    }, 
     start:{
         type:String
     },
