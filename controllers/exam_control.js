@@ -524,7 +524,7 @@ const single_create_exam=async(req,res)=>{
         const Question = questions[i];
         let newQuestion;
 
-        const file = req.files.find(f => f.fieldname === `questions[${i}].imgFile`);
+        const file = req.files ? req.files.find(f => f.fieldname === `questions[${i}].imgFile`) : undefined;
         if (file) {
           
           if (!admin.apps.length) {
@@ -594,7 +594,37 @@ const single_create_exam=async(req,res)=>{
       }
     }
 
+const selected_ids = JSON.parse(req.body.selected_ids)
+   
+    if(Array.isArray(selected_ids) && selected_ids.length > 0 ){
 
+      const selected_questions = await Question.find( { _id :{ $in : selected_ids } } )
+      
+      selected_questions.forEach( (q)=>{
+
+      let new_Question_Selected = {
+          question: q.question,
+          img: q.img,
+          answer_1: q.answer_1,
+          answer_2: q.answer_2,
+          answer_3: q.answer_3,
+          answer_4: q.answer_4,
+          mark: q.mark,
+          role: q.role,
+          correctBoolean: q.correctBoolean,
+          correctChoice: q.correctChoice,
+        };
+        data.Questions.push(new_Question_Selected);
+
+        
+      })
+      
+    }
+
+    
+
+    await data.save();
+    res.status(200).send({ exam: newExam, questions: data.Questions });
     await data.save();
     res.status(200).send({ exam: newExam, questions: data.Questions });
 
