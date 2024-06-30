@@ -359,12 +359,21 @@ const results_avaliable=async(req,res)=>{
   try{
 const exam_id = req.params.exam_id
 const edit_value = await Exam.findByIdAndUpdate(exam_id,{results_available:true},{new:true})
-res.status(200).send(`results are ${edit_value.results_available}`)
+res.status(200).send('results are avaliable')
 
 
   }catch(e){res.status(500).send(e.message)}
 }
 
+const results_unavaliable=async(req,res)=>{
+  try{
+const exam_id = req.params.exam_id
+const edit_value = await Exam.findByIdAndUpdate(exam_id,{results_available:false},{new:true})
+res.status(200).send('results are unavaliable')
+
+
+  }catch(e){res.status(500).send(e.message)}
+}
 
 //students//
 
@@ -648,6 +657,7 @@ module.exports = {
   getAllResultsTeacher,
   getAllResultsExamTeacher,
   results_avaliable,
+  results_unavaliable,
 
   getEXAMSFORStudent,
   getQUIZ,
