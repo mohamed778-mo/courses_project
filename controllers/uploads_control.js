@@ -74,7 +74,7 @@ const upload_pdf =async (req, res) => {
   
 
     fs.createReadStream(file.path).pipe(blobStream);
-
+            }
 
 }catch(e){res.status(500).send(e.message)}
   
