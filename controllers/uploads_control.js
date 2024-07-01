@@ -14,13 +14,13 @@ const upload_pdf =async (req, res) => {
     if (!file) {
       return res.status(400).send('No file uploaded.');
     }
-
-    
-
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      storageBucket: process.env.STORAGE_BUCKET
-    });
+  if (file) {
+          if (!admin.apps.length) {
+            admin.initializeApp({
+              credential: admin.credential.cert(serviceAccount),
+              storageBucket: process.env.STORAGE_BUCKET
+            });
+          }
     
     const bucket = admin.storage().bucket();
     const blob = bucket.file(file.filename);
