@@ -8,7 +8,7 @@ router.post("/add_question",storage.any(),add_question)
 router.get("/get_questions",get_Questions)
 router.get("/get_question/:question_id",get_Question)
 
-router.put("/edit_question/:question_id",storage.single('file'),edit_question)
+router.put("/edit_question/:question_id",storage.any(),edit_question)
 router.delete("/delete_question/:question_id",delete_question)
 
 module.exports = router
