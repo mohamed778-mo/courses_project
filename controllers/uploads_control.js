@@ -10,8 +10,7 @@ const serviceAccount =JSON.parse(process.env.SERVER)
 
 const upload_pdf =async (req, res) => {
     try{
-    const file = req.file
-
+    const file = req.files.find(f => f.fieldname === 'file')
     if (!file) {
       return res.status(400).send('No file uploaded.');
     }
