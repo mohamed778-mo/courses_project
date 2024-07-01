@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var examSchema = new mongoose.Schema({
     title:{
         type:String,
+        required:true
     },
     subject:{
         type:String
