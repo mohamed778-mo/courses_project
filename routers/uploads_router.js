@@ -6,7 +6,7 @@ const { upload_pdf,get_pdf,delete_pdf,get_pdfs} = require('../controllers/upload
 const { adminAuth }=require("../middleware/auth")
 
 
-router.post('/teacher/upload_pdf/:course_id',adminAuth, storage.single('file'), upload_pdf);
+router.post('/teacher/upload_pdf/:course_id',adminAuth,storage.any(), upload_pdf);
 router.get('/both/get_pdf/:pdf_id', get_pdf); //teacher and student //
 router.delete('/teacher/delete_pdf/:pdf_id', delete_pdf);
 router.get('/both/get_pdfs/:course_id', get_pdfs); //teacher and student //
