@@ -7,9 +7,11 @@ var videoSchema = new mongoose.Schema({
     },
     videoURL:{
         type:String,
+        required:true
     },
     description:{
-        type:String
+        type:String,
+        required:true
     },
     Teacher:{
         type:mongoose.Schema.Types.ObjectId,
@@ -27,6 +29,7 @@ var videoSchema = new mongoose.Schema({
     },
     type:{
         type:String,
+        required:true,
         enum:["free","paid"],
        
     },
