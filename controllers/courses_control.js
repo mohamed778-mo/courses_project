@@ -87,22 +87,30 @@ const getStudentCourses = async (req, res) => {
     const allData = await Courses.find({
       level: req.user.level,
       departement: req.user.departement,
-    });
+    }).lean();
+
     let sentData = allData.map((course) => {
-      course.videoslist.map((video, index) => {
-        if (index < 1 && course.freeTrial) {
-          return video;
+     
+      delete course.codes;
+      delete course.usedCodes;
+
+     
+      course.videoslist = course.videoslist.map((video, index) => {
+        if (index >= 1 || !course.freeTrial) {
+          video.videoURL = "";
         }
-        video.videoURL = "";
         return video;
       });
+
       return course;
     });
+
     res.status(200).send(sentData);
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
+
 
 const buycourse = async(req,res)=>{         
   try{
