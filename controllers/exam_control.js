@@ -510,14 +510,14 @@ const single_create_exam=async(req,res)=>{
 
     
     const newExam = new Exam({
-      title: req.body.title,
+      title: 'exercise',
       subject: req.body.subject,
       level: req.body.level,
       department: req.body.department,
       Teacher_Name: `${req.user.FirstName} ${req.user.LastName}`,
       Teacher_Id: req.user._id,
-      start: req.body.start,
-      end: req.body.end,
+      start: 'unlimited',
+      end: 'unlimited',
       
     });
 
@@ -643,6 +643,25 @@ const selected_ids = JSON.parse(req.body.selected_ids)
 };
 
 
+const get_all_revisions=async(req,res)=>{
+
+try{
+const subject = req.body.subject
+const teacher_id =  req.body.teacher_id
+
+  const data = await Exam.find({ title:'exercise' , subject:subject, Teacher_Id:teacher_id ,  start: 'unlimited',  end: 'unlimited'})
+
+
+res.status(200).send(data)
+
+  
+}catch(e){res.status(500).send(e.message)}
+
+
+  
+}
+
+
 
 
 module.exports = {
@@ -663,7 +682,7 @@ module.exports = {
   getQUIZ,
   sumbit,
   getAllResultsExamStudent,
-  get_My_Answer
+  get_My_Answer,
   
-
+get_all_revisions
 };
