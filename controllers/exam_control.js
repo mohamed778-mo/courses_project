@@ -458,7 +458,8 @@ console.log(nowInEgypt)
     allData.forEach((exam) => {
       const start_D = new Date(exam.start)
       const D_S = new Date(start_D.getTime()+Milliseconds)
-    console.log(D_S)
+    console.log(start_D)
+      console.log(start_D.getTime()+Milliseconds)
     const end_D = new Date(exam.end)
     const D_E = new Date(end_D.getTime()+Milliseconds)
 
