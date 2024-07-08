@@ -34,7 +34,7 @@ const createExam = async (req, res) => {
       end: req.body.end,
       Course_Id: course_id
     });
-
+console.log(req.body.start)
     await newExam.save();
 
     const exam_id = newExam._id;
@@ -460,6 +460,7 @@ console.log(nowInEgypt)
       const D_S = new Date(start_D.getTime()+Milliseconds)
     console.log(start_D)
       console.log(start_D.getTime()+Milliseconds)
+      console.log(D_S)
     const end_D = new Date(exam.end)
     const D_E = new Date(end_D.getTime()+Milliseconds)
 
