@@ -258,16 +258,12 @@ const getQUIZ=async(req,res)=>{
          }      
         const quizS= new Date(quiz.start)
   
-        const quizStart= new Date(quizS.getTime()+Milliseconds)
-  
-  
         const quizE= new Date(quiz.end)
 
-        const quizEnd= new Date(quizE.getTime()+Milliseconds)
   
  
       
-      if ( nowInEgypt>=quizStart&&nowInEgypt<=quizEnd) {
+      if ( nowInEgypt>=quizS&&nowInEgypt<=quizE) {
           req.quiz = quiz
           return res.status(200).json({Questions:quiz.Questions ,start:quiz.start,end:quiz.end}) 
       }else{
@@ -458,21 +454,21 @@ console.log(nowInEgypt)
 
     allData.forEach((exam) => {
       const start_D = new Date(exam.start)
-      const D_S = new Date(start_D.getTime()+Milliseconds)
+  
     console.log(start_D)
       
       
     const end_D = new Date(exam.end)
-    const D_E = new Date(end_D.getTime()+Milliseconds)
+    
 
 console.log(end_D)
       
-    if (D_S >= nowInEgypt && nowInEgypt <= D_E ) {
+    if (start_D >= nowInEgypt && nowInEgypt <= end_D ) {
 
         examsNotStarted.push(exam);
-      } else if (nowInEgypt >= D_S && nowInEgypt >= D_E ) {
+      } else if (nowInEgypt >= start_D && nowInEgypt >= end_D ) {
         examsEnded.push(exam);
-      } else if (nowInEgypt >= D_S && nowInEgypt <= D_E ) {
+      } else if (nowInEgypt >= start_D && nowInEgypt <= end_D ) {
         examsOngoing.push(exam);
       }
     });
