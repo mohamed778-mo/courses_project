@@ -451,6 +451,7 @@ try {
     const nowInEgypt = new Date(nowUTC.getTime() + Milliseconds)
 
 console.log(nowInEgypt)
+  
     const examsNotStarted = [];
     const examsEnded = [];
     const examsOngoing = [];
@@ -459,11 +460,13 @@ console.log(nowInEgypt)
       const start_D = new Date(exam.start)
       const D_S = new Date(start_D.getTime()+Milliseconds)
     console.log(start_D)
-      console.log(start_D.getTime()+Milliseconds)
-      console.log(D_S)
+      
+      
     const end_D = new Date(exam.end)
     const D_E = new Date(end_D.getTime()+Milliseconds)
 
+console.log(end_D)
+      
     if (D_S >= nowInEgypt && nowInEgypt <= D_E ) {
 
         examsNotStarted.push(exam);
