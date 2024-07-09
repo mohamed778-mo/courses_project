@@ -9,7 +9,7 @@ const storage = require("../middleware/multer_upload")
 
 
 router.post('/add_exam/:course_id', adminAuth, storage.any(), createExam);
-router.post('/single_exam', adminAuth, storage.any(), single_create_exam);
+router.post('/single_exam/:course_id', adminAuth, storage.any(), single_create_exam);
 router.delete('/delete_question/:exam_id/:question_id',adminAuth,deleteQuestion)
 router.delete('/delete_exam/:exam_id',adminAuth,deleteExam)
 router.get('/get_questions/:exam_id',adminAuth,getquestions)
