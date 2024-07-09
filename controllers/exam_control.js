@@ -508,7 +508,7 @@ const single_create_exam=async(req,res)=>{
     if (!T_id) {
       return res.status(404).send("Please login!!");
     }
-
+const course_id = req.params.course_id
     
     const newExam = new Exam({
       title: 'exercise',
@@ -519,6 +519,7 @@ const single_create_exam=async(req,res)=>{
       Teacher_Id: req.user._id,
       start: 'unlimited',
       end: 'unlimited',
+      Course_Id:course_id
       
     });
 
