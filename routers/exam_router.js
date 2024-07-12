@@ -19,6 +19,6 @@ router.get('/exam_results/:exam_id',adminAuth,getAllResultsExamTeacher)
 router.get('/allresults',adminAuth,getAllResultsTeacher)
 router.patch('/results_available/:exam_id',results_avaliable)
 router.patch('/results_unavailable/:exam_id',results_unavaliable)
-router.get('/get_all_exercise', auth, get_all_revisions)
+router.get('/get_all_exercise', adminAuth, get_all_revisions)
 
 module.exports = router
