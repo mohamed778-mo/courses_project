@@ -5,13 +5,12 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "https://courses-project-iu0w.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
-    
     "/app/teacher/register": {
       "post": {
         "description": "",
@@ -1099,9 +1098,6 @@
                 "department": {
                   "example": "any"
                 },
-                "total_mark": {
-                  "example": "any"
-                },
                 "start": {
                   "example": "any"
                 },
@@ -1109,6 +1105,57 @@
                   "example": "any"
                 },
                 "questions": {
+                  "example": "any"
+                },
+                "selected_ids": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/teacher/exam/single_exam": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "subject": {
+                  "example": "any"
+                },
+                "level": {
+                  "example": "any"
+                },
+                "department": {
+                  "example": "any"
+                },
+                "questions": {
+                  "example": "any"
+                },
+                "selected_ids": {
                   "example": "any"
                 }
               }
@@ -1348,6 +1395,28 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/teacher/exam/get_all_exercise": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1932,12 +2001,12 @@
         }
       }
     },
-    "/app/student/exam/get_quiz_now_for_student/{id}": {
+    "/app/student/exam/get_quiz_now_for_student/{exam_id}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "exam_id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -2072,6 +2141,61 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/student/exam/get_all_exercise": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/app/student/exam/get_ended_exam/{exam_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "exam_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
