@@ -665,7 +665,9 @@ const get_end_exam=async(req,res)=>{
             if(dataresultforstudent){
               return res.status(400).send(" don't try to palaver ,you use this exam ! ")
             }
-    
+    const exam_id =req.params.exam_id
+    const check_result_aval =await Exam.findById(exam_id)
+    if(check_result_aval.results_available){
       const exam_id =req.params.exam_id
       
       const nowUTC = new Date();
@@ -692,8 +694,8 @@ const get_end_exam=async(req,res)=>{
           return res.status(403).send(' this exam is not ended  !');
       }
       
-     
-        
+    }else{res.status(400).send(" exam_results is not available ")}
+    
           }catch(e){res.status(500).send(e.message)}
 }
 
