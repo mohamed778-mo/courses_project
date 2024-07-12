@@ -3,6 +3,11 @@ const Student = require("../models/student_model");
 const Teacher = require("../models/teacher_model");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const admin = require('firebase-admin');
+const fs = require('fs');
+require('dotenv').config();
+
+const serviceAccount =JSON.parse(process.env.SERVER)
 
 const createCourse = async (req, res) => {
   try {
@@ -20,7 +25,7 @@ const createCourse = async (req, res) => {
       departement,
     } = req.body;
 
-
+const file = req.files.find(f => f.fieldname === 'file')
   if(file){
         
         if (!file) {
