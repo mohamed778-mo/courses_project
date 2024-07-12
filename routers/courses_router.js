@@ -1,10 +1,11 @@
 const express = require("express")
 const router = express.Router()
+const storage = require("../middleware/multer_upload")
 
 const {createCourse,getDetailsCourse,getCourse,getMyCourses,editData,deleteOneData,deleteAllData,deleteCourseThatinStudent,createCode,getCodes,getusedCodes}=require("../controllers/courses_control")
 const {adminAuth }=require("../middleware/auth")
 
-router.post('/createcourse',adminAuth,createCourse)
+router.post('/createcourse',storage.any(),adminAuth,createCourse)
 router.get('/getcourse/:id',adminAuth,getCourse)
 router.get('/getDetailsCourse/:id',adminAuth,getDetailsCourse)
 router.get('/getmycourses',adminAuth,getMyCourses)
