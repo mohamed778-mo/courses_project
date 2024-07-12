@@ -642,10 +642,10 @@ const selected_ids = JSON.parse(req.body.selected_ids)
 const get_all_revisions=async(req,res)=>{
 
 try{
-const subject = req.body.subject
-const teacher_id =  req.body.teacher_id
 
-  const data = await Exam.find({ title:'exercise' , subject:subject, Teacher_Id:teacher_id ,  start: 'unlimited',  end: 'unlimited'})
+const course_id =  req.body.course_id
+
+  const data = await Exam.find({ title:'exercise' , course_id:course_id ,  start: 'unlimited',  end: 'unlimited'})
 
 
 res.status(200).send(data)
