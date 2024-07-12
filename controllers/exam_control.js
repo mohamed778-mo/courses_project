@@ -454,15 +454,9 @@ console.log(nowInEgypt)
 
     allData.forEach((exam) => {
       const start_D = new Date(exam.start)
-  
-    console.log(start_D)
       
-      
-    const end_D = new Date(exam.end)
-    
+      const end_D = new Date(exam.end)
 
-console.log(end_D)
-      
     if (start_D >= nowInEgypt && nowInEgypt <= end_D ) {
 
         examsNotStarted.push(exam);
@@ -660,7 +654,47 @@ res.status(200).send(data)
 }catch(e){res.status(500).send(e.message)}
 
 
+const get_end_exam=async(req,res)=>{
+  try{
+      const student_ID = req.user._id
+      if(!mongoose.Types.ObjectId.isValid(student_ID)){
+          return res.status(404).send('your ID is not correct!!')
+      }   
+      
+      const dataresultforstudent = await Result.findOne({student_Id:student_ID})
+            if(dataresultforstudent){
+              return res.status(400).send(" don't try to palaver ,you use this exam ! ")
+            }
+    
+      const {id:_id} =req.params
+      
+      const nowUTC = new Date();
   
+      const Milliseconds = 3 * 60 * 60 * 1000
+      const nowInEgypt = new Date(nowUTC.getTime() + Milliseconds)
+ 
+    
+      const end_exam = await Exam.findById(_id)
+      if(!end_exam){
+         return  res.status(404).send("not found !!")
+         }      
+        const end_examS= new Date(end_exam.start)
+  
+        const end_examE= new Date(end_exam.end)
+
+  
+ 
+      
+      if ( nowInEgypt >= end_examS && nowInEgypt >= end_examE) {
+          req.end_exam = end_exam
+          return res.status(200).json({ Questions:end_exam.Questions }) 
+      }else{
+          return res.status(403).send(' this exam is not ended  !');
+      }
+      
+     
+        
+          }catch(e){res.status(500).send(e.message)}
 }
 
 
@@ -686,5 +720,7 @@ module.exports = {
   getAllResultsExamStudent,
   get_My_Answer,
   
-get_all_revisions
+get_all_revisions,
+
+  get_end_exam
 };
