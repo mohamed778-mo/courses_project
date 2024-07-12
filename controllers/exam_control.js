@@ -652,7 +652,7 @@ res.status(200).send(data)
 
   
 }catch(e){res.status(500).send(e.message)}
-
+}
 
 const get_end_exam=async(req,res)=>{
   try{
