@@ -19,15 +19,74 @@ const createCourse = async (req, res) => {
       level,
       departement,
     } = req.body;
-    const newCourse = new Courses({ ...req.body, Teacher: req.user._id, Teachername: req.user.FirstName+' '+req.user.LastName });
 
-    await Teacher.findById(T_id).then((f) => {
+
+  if(file){
+        
+        if (!file) {
+          return res.status(400).send('No file uploaded.');
+        }
+      
+           if (!admin.apps.length) {
+            admin.initializeApp({
+              credential: admin.credential.cert(serviceAccount),
+              storageBucket: process.env.STORAGE_BUCKET
+            });
+          }
+
+          const bucket = admin.storage().bucket();
+          const blob = bucket.file(file.filename);
+          const blobStream = blob.createWriteStream({
+            metadata: {
+              contentType: file.mimetype
+            }
+          });
+
+
+          await new Promise((reject) => {
+            blobStream.on('error', (err) => {
+              reject(err);
+            });
+
+            blobStream.on('finish', async () => {
+              try {
+                await blob.makePublic();
+                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                fs.unlinkSync(file.path);
+              const newCourse = new Courses({ ...req.body, Teacher: req.user._id, Teachername: req.user.FirstName+' '+req.user.LastName , photo:publicUrl});
+               await newCourse.save();
+await Teacher.findById(T_id).then((f) => {
       f.myCourses.push(newCourse._id);
       f.save();
     });
     await newCourse.save();
+               res.status(200).send(newCourse)
+              } catch (err) {
+                reject(err);
+              }
+            });
 
-    res.status(200).send(newCourse);
+            fs.createReadStream(file.path).pipe(blobStream);
+          });
+      
+  
+      }
+      
+
+  if(!file){
+    
+    const newCourse = new Courses({ ...req.body, Teacher: req.user._id, Teachername: req.user.FirstName+' '+req.user.LastName , photo:"empty"});
+               await newCourse.save();
+await Teacher.findById(T_id).then((f) => {
+      f.myCourses.push(newCourse._id);
+      f.save();
+    });
+    await newCourse.save();
+       res.status(200).send(newCourse)
+      
+  }
+    
+
   } catch (e) {
     res.status(500).send(e.message);
   }
