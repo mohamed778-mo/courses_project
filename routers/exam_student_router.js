@@ -9,13 +9,13 @@ const {auth}=require("../middleware/auth")
 
 
 router.get('/get_exam_student/:id',auth,getEXAMSFORStudent)
-router.get('/get_quiz_now_for_student/:id',auth,getQUIZ)
+router.get('/get_quiz_now_for_student/:exam_id',auth,getQUIZ)
 router.post('/sumbit/:course_id',auth,sumbit)
 router.get('/student_exam_result/:course_id/:exam_id',auth,getAllResultsExamStudent)
 router.get('/student_answers/:exam_id', auth, get_My_Answer)
 
 router.get('/get_all_exercise', auth, get_all_revisions)
 
-router.get('/get_ended_exam', auth, get_end_exam)
+router.get('/get_ended_exam/:exam_id', auth, get_end_exam)
 
 module.exports = router
