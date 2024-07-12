@@ -244,7 +244,7 @@ const getQUIZ=async(req,res)=>{
               return res.status(400).send(" don't try to palaver ,you use this exam ! ")
             }
     
-      const {id:_id} =req.params
+      const exam_id =req.params.exam_id
       
       const nowUTC = new Date();
   
@@ -252,7 +252,7 @@ const getQUIZ=async(req,res)=>{
       const nowInEgypt = new Date(nowUTC.getTime() + Milliseconds)
  
     
-      const quiz = await Exam.findById(_id)
+      const quiz = await Exam.findById(exam_id)
       if(!quiz){
          return  res.status(404).send("not found !!")
          }      
@@ -666,7 +666,7 @@ const get_end_exam=async(req,res)=>{
               return res.status(400).send(" don't try to palaver ,you use this exam ! ")
             }
     
-      const {id:_id} =req.params
+      const exam_id =req.params.exam_id
       
       const nowUTC = new Date();
   
@@ -674,7 +674,7 @@ const get_end_exam=async(req,res)=>{
       const nowInEgypt = new Date(nowUTC.getTime() + Milliseconds)
  
     
-      const end_exam = await Exam.findById(_id)
+      const end_exam = await Exam.findById(exam_id)
       if(!end_exam){
          return  res.status(404).send("not found !!")
          }      
