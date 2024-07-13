@@ -25,6 +25,7 @@ var coursesSchema = new mongoose.Schema({
     departement:{
         type:String,
         trim:true,
+        enum:["sec","pre"]
     },
     
     Teacher:{
