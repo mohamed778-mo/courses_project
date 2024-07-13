@@ -18,12 +18,10 @@ const questionSchema = new mongoose.Schema({
     required: true
   },
   answer_3: {
-    type: String,
-    required: true
+    type: String
   },
   answer_4: {
-    type: String,
-    required: true
+    type: String
   },
   mark: {
     type: Number,
