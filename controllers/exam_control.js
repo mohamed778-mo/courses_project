@@ -234,17 +234,17 @@ const getquestions = async (req, res) => {
 
 const getQUIZ=async(req,res)=>{
   try{
+      const exam_id =req.params.exam_id
+      
       const student_ID = req.user._id
       if(!mongoose.Types.ObjectId.isValid(student_ID)){
           return res.status(404).send('your ID is not correct!!')
       }   
       
-      const dataresultforstudent = await Result.findOne({student_Id:student_ID})
+      const dataresultforstudent = await Result.findOne({student_Id:student_ID , exam_Id:exam_id})
             if(dataresultforstudent){
               return res.status(400).send(" don't try to palaver ,you use this exam ! ")
             }
-    
-      const exam_id =req.params.exam_id
       
       const nowUTC = new Date();
   
@@ -656,16 +656,17 @@ res.status(200).send(data)
 
 const get_end_exam=async(req,res)=>{
   try{
+      const exam_id =req.params.exam_id
       const student_ID = req.user._id
       if(!mongoose.Types.ObjectId.isValid(student_ID)){
           return res.status(404).send('your ID is not correct!!')
       }   
       
-      const dataresultforstudent = await Result.findOne({student_Id:student_ID})
+      const dataresultforstudent = await Result.findOne({student_Id:student_ID, exam_Id:exam_id})
             if(dataresultforstudent){
               return res.status(400).send(" don't try to palaver ,you use this exam ! ")
             }
-    const exam_id =req.params.exam_id
+    
     const check_result_aval =await Exam.findById(exam_id)
     if(check_result_aval.results_available){
       const exam_id =req.params.exam_id
