@@ -75,10 +75,10 @@ client.request({
 },
 async (error, body) => {
  if (error) {
-   return res.send('error in "videoId" !! ');
+   return res.status(400).send('error in "videoId" !! ');
 
  }
-
+console.log(path)
 const type = req.body.type
 const description = req.body.description
 const course_id = req.params.course_id
