@@ -29,7 +29,15 @@ The **architecture** of this project includes the following components:
 - **Content Delivery**: Handles video streaming and PDF download.
 - **Exam and Review Management**: CRUD operations for exams and reviews.
 
-## License
+## Contributing
+- Fork the repository.
+- Create a new branch (git checkout -b feature/your-feature-name.
+- Make your changes**.
+- Commit your changes (git commit -m 'Add some feature').
+- Push to the branch (git push origin feature/your-feature-name).
+- Open a pull request.
+  
+ ## License
 This project is licensed under the MIT License.
 
 ## Contact
