@@ -33,4 +33,4 @@ The **architecture** of this project includes the following components:
 This project is licensed under the MIT License.
 
 ## Contact
-For any inquiries or questions, feel free to contact mohamed778-mo.
+For any inquiries or questions, feel free to contact **mohamed778-mo**.
