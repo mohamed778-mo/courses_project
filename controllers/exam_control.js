@@ -287,8 +287,8 @@ const data_student=await Student.findById(student_ID)
 
   const examId = req.body.exam_id
   const answers  = req.body.Answers
-    
-   
+    console.log(examId)
+   console.log(answers)
     const existingAnswer = await ExamAnswer.findOne({ student: data_student.FirstName + data_student.LastName, student_Id:student_ID, examId});
 
     if (existingAnswer) {
@@ -319,6 +319,7 @@ const data_student=await Student.findById(student_ID)
   
 
   const course_id = req.params.course_id
+  console.log(course_id)
   const courseDATA=await Courses.findById(course_id)
   const student_mark = req.body.student_mark ? `${req.body.student_mark}`:'not yet'
   const data = await Student.findById(student_ID)
