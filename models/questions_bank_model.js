@@ -49,7 +49,10 @@ const questionSchema = new mongoose.Schema({
 
 lec:{
     type: String,
-}
+},
+ teacher_id:{
+    type: String,
+}, 
 
 });
 
