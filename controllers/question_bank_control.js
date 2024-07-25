@@ -10,7 +10,9 @@ const add_question = async (req, res) => {
   try {
     const { question, answer_1, answer_2, answer_3, answer_4, mark, role, correctBoolean, correctChoice ,year,lec} = req.body;
     const file = req.files.find(f => f.fieldname === 'file')
+    const user=req.user
 
+    
   if(file){
         
         if (!file) {
@@ -55,7 +57,8 @@ const add_question = async (req, res) => {
                   correctBoolean,
                   correctChoice,
                   year,
-                  lec
+                  lec,
+                  teacher_id:user._id
                 });
                await newQuestion.save();
 
@@ -86,7 +89,8 @@ const add_question = async (req, res) => {
           correctBoolean,
          correctChoice,
          year,
-         lec
+         lec,
+         teacher_id:user._id
         });
        await newQuestion.save();
        res.status(200).send(newQuestion)
@@ -101,7 +105,8 @@ const add_question = async (req, res) => {
 
 const get_Questions= async (req, res) => {
     try {
-      const questions = await Question.find();
+      const user = req.user
+      const questions = await Question.find({ teacher_id : user._id });
       res.status(200).send(questions);
     } catch (e) {
       res.status(500).send(e.message);
