@@ -322,6 +322,7 @@ const data_student=await Student.findById(student_ID)
   console.log(course_id)
   const courseDATA=await Courses.findById(course_id)
   const student_mark = req.body.student_mark ? `${req.body.student_mark}`:'not yet'
+  console.log(student_mark)
   const data = await Student.findById(student_ID)
   const newResult= new Result({student_Id:student_ID,student_name:data.FirstName+data.LastName , result:student_mark , course:courseDATA.subject , course_Id:course_id , exam_Id:examId})
   await newResult.save()
