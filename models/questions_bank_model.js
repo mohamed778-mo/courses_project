@@ -43,7 +43,7 @@ const questionSchema = new mongoose.Schema({
 ,
   year: {
     type: String,
-  enum:['one-p','two-p','three-p','one-s','two-s','three-s'],
+  enum:['one','two','three'],
     required: true
   },
 
