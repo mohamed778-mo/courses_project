@@ -51,7 +51,8 @@ lec:{
     type: String,
 },
  teacher_id:{
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Teacher"
 }, 
 
 });
