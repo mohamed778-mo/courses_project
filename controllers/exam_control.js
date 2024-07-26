@@ -22,7 +22,14 @@ const createExam = async (req, res) => {
     }
 
     const course_id = req.params.course_id;
-
+    const start_time =req.body.start
+    const end_time =req.body.end
+if(!start_time){
+  return res.status(400).send("time is required")
+}
+    if(!end_time){
+  return res.status(400).send("time is required")
+}
     const newExam = new Exam({
       title: req.body.title,
       subject: req.body.subject,
