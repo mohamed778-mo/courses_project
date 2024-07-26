@@ -18,6 +18,7 @@ This project is divided into two parts: one for teachers and one for students. T
 - **Mongoose**: ODM for MongoDB.
 - **JWT**: Authentication and authorization.
 - **REST API**: Communication between the client and server.
+- **Design patterns**
 
 ## Architecture
 The **architecture** of this project includes the following components:
