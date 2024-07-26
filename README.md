@@ -16,7 +16,7 @@ This project is divided into two parts: one for teachers and one for students. T
 - **Express.js**: Web framework for Node.js.
 - **MongoDB**: NoSQL database for storing course and user data.
 - **Mongoose**: ODM for MongoDB.
-- **JWT (JSON Web Token)**: Authentication and authorization.
+- **JWT**: Authentication and authorization.
 - **REST API**: Communication between the client and server.
 
 ## Architecture
