@@ -266,7 +266,7 @@ const getpaidcourses = async (req, res) => {
   try {
     const { myCourses } = req.user;
 
-    Courses.find({ _id: { $in: myCourses } }).then((courses) => {
+    Courses.find({ _id: { $in: myCourses } }).select('-codes -usedCodes').then((courses) => {
       res.status(200).send(courses);
     });
   } catch (e) {
