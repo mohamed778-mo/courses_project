@@ -203,7 +203,7 @@ const buyVideo=async(req,res)=>{
           return res.status(404).send({ error: 'Video not found.' });
         }
 
-        if(video.type == "paid"){
+        if(video.type === "paid"){
 
         const idObject = new mongoose.Types.ObjectId(video_id);
         const courseExists = data_s.myVideos.some(video => video._id.equals(idObject));
@@ -244,7 +244,7 @@ const buyVideo=async(req,res)=>{
   
          res.status(200).json({videoURL:video.videoURL})
         }
-if(video.type == "free"){
+if(video.type === "free"){
   res.status(200).json({videoURL:video.videoURL})
 }
 
