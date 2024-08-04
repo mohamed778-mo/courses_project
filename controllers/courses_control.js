@@ -158,9 +158,9 @@ const getStudentCourses = async (req, res) => {
       delete course.codes;
       delete course.usedCodes;
 
-     
-      course.videoslist = course.videoslist.map((video, index) => {
-        if (index >= 1 || !course.freeTrial) {
+    
+      course.videoslist = course.videoslist.map((video) => {
+        if (video.type !== "free") {
           video.videoURL = "";
         }
         return video;
