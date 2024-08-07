@@ -4,30 +4,30 @@ const Teacher = require("../models/teacher_model");
 
 const auth = async (req, res, next) => {
   try {
-    if (!req?.cookies) {
-      return res.status(404).send(" please login !");
+    if (!req.cookies) {
+      return res.status(401).send("Please login!");
     }
-    const token = req?.cookies?.access_token?.split(" ")[1];
+    const token = req.cookies.access_token?.split(" ")[1];
     if (!token) {
-      return res.status(401).send(" please login !");
+      return res.status(401).send("Please login!");
     }
 
     const SECRETKEY = process.env.SECRETKEY;
+    const decoded = jwt.verify(token, SECRETKEY);
 
-    const result = await jwt.verify(token, SECRETKEY, { complete: true });
-
-    if (!result) {
-      return res.status(400).send(" please signup or login !");
+    const user = await Student.findById(decoded.id);
+    if (!user || !user.tokens.includes(token)) {
+      return res.status(401).send("Please login!");
     }
 
-    const user_1 = await Student.findById(result.payload.id);
-    req.user = user_1;
-
+    req.user = user;
+    req.token = token;
     next();
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
+
 
 const adminAuth = async (req, res, Next) => {
   try {
