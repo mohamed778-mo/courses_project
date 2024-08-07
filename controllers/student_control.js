@@ -192,7 +192,7 @@ const changePassword=async(req,res)=>{
     res.status(200).send('PASSWORD is changed !!')
 }
 
-const Logout = async (req, res) => {
+const loginOut = async (req, res) => {
   try {
     const user = req.user;
     const token = req.token;
