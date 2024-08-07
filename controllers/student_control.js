@@ -102,7 +102,8 @@ const Login = async(req,res)=>{
          expires:new Date(Date.now()+60*60*24*1024*300),
             httpOnly : true
          })
-         
+          user.tokens = [];
+         await user.save();
          user.tokens.push(token)
          user.save()
 
@@ -195,6 +196,8 @@ const changePassword=async(req,res)=>{
 try{
   
         req.user.tokens =[]
+     await req.user.save();
+     
         res.clearCookie("access_token", {sameSite: "none", secure: true,}).status(200).send("login out is success.")  
       
       }catch(e){
