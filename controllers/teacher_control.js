@@ -227,16 +227,20 @@ const changePassword = async (req, res) => {
   user.save();
   res.status(200).send("PASSWORD is changed !!");
 };
-
 const loginOut = async (req, res) => {
   try {
+    
     req.user.tokens = [];
-    res
-      .clearCookie("access_token", { sameSite: "none", secure: true })
-      .status(200)
-      .send("login out is success.");
+    
+   
+    await req.user.save();
+
+
+    res.clearCookie("access_token", { sameSite: "none", secure: true })
+       .status(200)
+       .send("Logout is successful.");
   } catch (e) {
-    res.status(500).send("Server Error");
+    res.status(500).send(e.message);
   }
 };
 
