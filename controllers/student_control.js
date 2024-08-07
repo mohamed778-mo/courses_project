@@ -192,19 +192,22 @@ const changePassword=async(req,res)=>{
     res.status(200).send('PASSWORD is changed !!')
 }
 
- const loginOut = async(req,res)=>{
-try{
-  
-        req.user.tokens =[]
-     await req.user.save();
-     
-        res.clearCookie("access_token", {sameSite: "none", secure: true,}).status(200).send("login out is success.")  
-      
-      }catch(e){
-    res.status(500).send(e.message)
-}
+const Logout = async (req, res) => {
+  try {
+    const user = req.user;
+    const token = req.token;
 
-}
+
+    user.tokens = user.tokens.filter(t => t !== token);
+    await user.save();
+
+    res.clearCookie("access_token", { httpOnly: true });
+    res.status(200).send("Logout is successful");
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 
 
 const forgetPassword=async(req,res)=>{
