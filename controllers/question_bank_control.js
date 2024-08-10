@@ -124,19 +124,27 @@ const get_Question= async (req, res) => {
   }
 
 const delete_question = async (req, res) => {
-    try {
-      const questionId = req.params.question_id;
-      const deletedQuestion = await Question.findByIdAndDelete(questionId);
-  
-      if (!deletedQuestion) {
-        return res.status(404).send("Question not found");
-      }
-  
-      res.status(200).send({ message: "Question deleted successfully" });
-    } catch (e) {
-      res.status(500).send(e.message);
+  try {
+    const questionId = req.params.question_id;
+    const question = await Question.findByIdAndDelete(questionId);
+
+    if (!question) {
+      return res.status(404).send("Question not found!");
     }
+
+   
+    if (question.img && question.img !== 'empty') {
+      const filename = question.img.split('/').pop();
+      const bucket = admin.storage().bucket();
+      await bucket.file(filename).delete();
+    }
+
+    res.status(200).send({ message: "Question deleted successfully!" });
+  } catch (e) {
+    res.status(500).send(e.message);
   }
+};
+
   
  
 const edit_question = async (req, res) => {
