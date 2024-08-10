@@ -111,10 +111,9 @@ const delete_pdf = async (req, res) => {
         const file_name = pdf_det.pdf.split('/').pop();
         const file = bucket.file(file_name);
 
-        // حذف الملف من Firebase Storage
         await file.delete();
 
-        // حذف السجل من قاعدة البيانات
+        
         await Uploads.findByIdAndDelete(pdf_id);
 
         res.status(200).send("File and database record deleted successfully!");
