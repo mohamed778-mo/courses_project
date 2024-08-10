@@ -91,17 +91,38 @@ res.status(200).send(pdf_det)
 
 }
 
-const delete_pdf = async (req,res)=>{
+const delete_pdf = async (req, res) => {
+    try {
+        const pdf_id = req.params.pdf_id;
+        const pdf_det = await Uploads.findById(pdf_id);
+        
+        if (!pdf_det) {
+            return res.status(404).send('PDF not found.');
+        }
 
-    try{
-    const pdf_id = req.params.pdf_id
-    await Uploads.findByIdAndDelete(pdf_id)
-    
-    res.status(200).send("delete is success !!")
-    
-    }catch(e){res.status(500).send(e.message)}
-    
-}
+        if (!admin.apps.length) {
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount),
+                storageBucket: process.env.STORAGE_BUCKET
+            });
+        }
+
+        const bucket = admin.storage().bucket();
+        const file_name = pdf_det.pdf.split('/').pop();
+        const file = bucket.file(file_name);
+
+        // حذف الملف من Firebase Storage
+        await file.delete();
+
+        // حذف السجل من قاعدة البيانات
+        await Uploads.findByIdAndDelete(pdf_id);
+
+        res.status(200).send("File and database record deleted successfully!");
+    } catch (e) {
+        res.status(500).send(e.message);
+    }
+};
+
 
 const get_pdfs =  async (req,res)=>{
 
