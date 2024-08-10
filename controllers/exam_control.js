@@ -164,12 +164,29 @@ const deleteQuestion = async (req, res) => {
     const exam_id = req.params.exam_id;
     const question_id = req.params.question_id;
 
+    const exam = await Exam.findById(exam_id);
+    if (!exam) {
+      return res.status(404).send("Exam not found!");
+    }
+
+    const question = exam.Questions.id(question_id);
+    if (!question) {
+      return res.status(404).send("Question not found!");
+    }
+
+
+    if (question.img && question.img !== 'empty') {
+      const filename = question.img.split('/').pop();
+      const bucket = admin.storage().bucket();
+      await bucket.file(filename).delete();
+    }
+
     await Exam.updateOne(
       { _id: exam_id },
       { $pull: { Questions: { _id: question_id } } }
     );
 
-    res.status(200).send(" deleted !!");
+    res.status(200).send("Question deleted!");
   } catch (e) {
     res.status(500).send(e.message);
   }
@@ -212,19 +229,30 @@ const getAllExams = async (req, res) => {
 const deleteExam = async (req, res) => {
   try {
     const exam_id = req.params.exam_id;
-    const check = await Exam.findById(exam_id);
+    const exam = await Exam.findById(exam_id);
 
-    if (!check) {
-      return res.status(404).send("not found !!");
+    if (!exam) {
+      return res.status(404).send("Exam not found!");
     }
+
+    const bucket = admin.storage().bucket();
+
+    for (let question of exam.Questions) {
+      if (question.img && question.img !== 'empty') {
+        const filename = question.img.split('/').pop();
+        await bucket.file(filename).delete();
+      }
+    }
+
 
     await Exam.findByIdAndDelete(exam_id);
 
-    res.status(200).send(" EXAM is deleted !!");
+    res.status(200).send("Exam deleted with all associated questions and images!");
   } catch (e) {
-    res.status(500).send("something is wrong !!");
+    res.status(500).send(e.message);
   }
 };
+
 
 const getquestions = async (req, res) => {
   const teacher_ID = req.user._id;
