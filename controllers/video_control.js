@@ -66,22 +66,23 @@ const postvideofromviemotoDB = async(req,res)=>{
   const token =process.env.TOKEN
     
   const client = new Vimeo(client_id, client_secret , token);
-  
+
 const vimeoUrl = req.body.videoId; 
 
-
 const urlParts = vimeoUrl.split('/');
-const VideoId = urlParts[3]; 
-const Vtoken = urlParts[4];   
-
-console.log('Video ID:', VideoId);
-console.log('Token:', Vtoken);
+const VideoUrl = urlParts.slice(3).join('/');  
 
 client.request({
   method: 'GET',
-  path: `/${VideoId}`,
-  query: { password: Vtoken } 
+  path: `/${VideoUrl}`,  
 },
+async (error, body) => {
+  if (error) {
+    return res.status(400).send('Error in "videoId" or token, not exist or incorrect!!');
+  } 
+  res.status(200).send(body);
+});
+
 async (error, body) => {
   if (error) {
     return res.status(400).send('Error in "videoId" or token, not exist or incorrect!!');
