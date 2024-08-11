@@ -79,7 +79,7 @@ console.log('Token:', Vtoken);
 
 client.request({
   method: 'GET',
-  path: `/videos/${VideoId}`,
+  path: `/${VideoId}`,
   query: { password: Vtoken } 
 },
 async (error, body) => {
