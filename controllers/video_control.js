@@ -61,12 +61,7 @@ const uploadVideo = async (req, res) => {
 
 const postvideofromviemotoDB = async(req,res)=>{
   try{
-  const client_id =process.env.CLIENT_ID
-  const client_secret =process.env.CLIENT_SECRETS
-  const token =process.env.TOKEN
-    
-  const client = new Vimeo(client_id, client_secret , token);
-
+  
 const videoPath = req.body.videoId; 
 
 const urlParts = videoPath.split('/');
@@ -76,15 +71,8 @@ const Vtoken = urlParts[1];
 console.log(VideoId)
 console.log(Vtoken)
     
-client.request({
-  method: 'GET',
-  path: `https://vimeo.com/${VideoId}/${Vtoken}`,  
-},
  
-async (error, body) => {
-  if (error) {
-    return res.status(400).send('Error in "videoId" or token, not exist or incorrect!!');
-  }
+
 const type = req.body.type
 const description = req.body.description
 const course_id = req.params.course_id
@@ -95,8 +83,7 @@ const course_id = req.params.course_id
  }
 
  const newvideo = new Video({
-   name: body.name,
-   videoURL: body.player_embed_url,
+   videoURL: `https://vimeo.com/${VideoId}/${Vtoken}`,
    description: description,
    Teacher: req.user._id,
    course: course_id,
@@ -111,7 +98,6 @@ const course_id = req.params.course_id
  Courses.findById(course_id).then((course) => {
    course.videoslist.push({
      id: newvideo._id,
-     name: newvideo.name,
      videoURL: newvideo.videoURL,
      description: newvideo.description,
      Teacher: newvideo.Teacher,
@@ -123,10 +109,8 @@ const course_id = req.params.course_id
 
    course.save();
 res.status(200).send(newvideo)
-})
 
 
-})
 }catch(e){res.status(500).send(e.message)}
 };
 
