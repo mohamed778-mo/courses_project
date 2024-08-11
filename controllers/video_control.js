@@ -72,12 +72,12 @@ const vimeoUrl = req.body.videoId;
 
 const urlParts = vimeoUrl.split('/');
 const videoId = urlParts[3]; 
-const token = urlParts[4];   
+const V_token = urlParts[4];   
 
 client.request({
   method: 'GET',
   path: `/videos/${videoId}`,
-  query: { password: token } // Attach the privacy token
+  query: { password: V_token } // Attach the privacy token
 },
 async (error, body) => {
   if (error) {
