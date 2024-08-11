@@ -78,7 +78,7 @@ console.log(Vtoken)
     
 client.request({
   method: 'GET',
-  path: `/${VideoId}/${Vtoken}`,  
+  path: `https://vimeo.com/${VideoId}/${Vtoken}`,  
 },
  
 async (error, body) => {
