@@ -76,13 +76,7 @@ client.request({
   method: 'GET',
   path: `/${VideoUrl}`,  
 },
-async (error, body) => {
-  if (error) {
-    return res.status(400).send('Error in "videoId" or token, not exist or incorrect!!');
-  } 
-  res.status(200).send(body);
-});
-
+ 
 async (error, body) => {
   if (error) {
     return res.status(400).send('Error in "videoId" or token, not exist or incorrect!!');
