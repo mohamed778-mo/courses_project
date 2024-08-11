@@ -70,13 +70,13 @@ const postvideofromviemotoDB = async(req,res)=>{
 const vimeoUrl = req.body.videoId; 
 
 const urlParts = vimeoUrl.split('/');
-const videoId = urlParts[3]; 
-const token = urlParts[4];
+const VideoId = urlParts[3]; 
+const Vtoken = urlParts[4];
 
 
 client.request({
   method: 'GET',
-  path: `/${videoId}/${token}`,  
+  path: `/${VideoId}/${Vtoken}`,  
 },
  
 async (error, body) => {
