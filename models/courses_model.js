@@ -50,10 +50,6 @@ var coursesSchema = new mongoose.Schema({
     },
     videoslist:[
         {
-            name:{
-                type:String,
-               
-            },
             videoURL:{
                 type:String,
             },
