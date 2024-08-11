@@ -83,7 +83,7 @@ const course_id = req.params.course_id
  }
 
  const newvideo = new Video({
-   videoURL: `https://player.vimeo.com/video/${VideoId}?h==${Vtoken}`,
+   videoURL: `https://player.vimeo.com/video/${VideoId}?h=${Vtoken}`,
    description: description,
    Teacher: req.user._id,
    course: course_id,
