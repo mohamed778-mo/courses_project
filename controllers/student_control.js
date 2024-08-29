@@ -284,7 +284,27 @@ const forgetPassword=async(req,res)=>{
 
 
 
+const newPassword = async (req, res) => {
+    try {  
+        const { email, new_password } = req.body;
+        
+    
+        const user = await Student.findOne({ email });
+        if (!user) throw new Error("المستخدم غير موجود!");
 
+        const hashedPassword = await bcryptjs.hash(new_password, 8);
+        user.password = hashedPassword;
+        user.passwordChangedAt = Date.now();
+
+     
+        await user.save();
+
+        res.status(200).send("تم تغيير كلمة المرور بنجاح!");
+
+    } catch (e) {
+        res.status(500).send(e.message);
+    }
+};
 
 
 
@@ -298,6 +318,7 @@ module.exports = {
     loginOut,
     VerifiyEmail,
     forgetPassword,
-    resetPassword
+    resetPassword,
+    newPassword
 
 } ;
