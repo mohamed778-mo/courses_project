@@ -292,8 +292,8 @@ const newPassword = async (req, res) => {
         const user = await Student.findOne({ email });
         if (!user) throw new Error("المستخدم غير موجود!");
 
-        const hashedPassword = await bcryptjs.hash(new_password, 8);
-        user.password = hashedPassword;
+        
+        user.password = new_password;
         user.passwordChangedAt = Date.now();
 
      
