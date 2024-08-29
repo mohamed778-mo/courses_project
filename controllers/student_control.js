@@ -292,14 +292,14 @@ const newPassword = async (req, res) => {
         const user = await Student.findOne({ mobile });
         if (!user) throw new Error("المستخدم غير موجود!");
 
-        
+      
         user.password = new_password;
         user.passwordChangedAt = Date.now();
 
      
         await user.save();
 
-        res.status(200).send("تم تغيير كلمة المرور بنجاح!");
+        res.status(200).send({"تم تغيير كلمة المرور بنجاح!":user});
 
     } catch (e) {
         res.status(500).send(e.message);
