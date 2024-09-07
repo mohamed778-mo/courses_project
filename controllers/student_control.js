@@ -286,10 +286,10 @@ const forgetPassword=async(req,res)=>{
 
 const newPassword = async (req, res) => {
     try {  
-        const { mobile, new_password } = req.body;
+        const { email, new_password } = req.body;
         
     
-        const user = await Student.findOne({ mobile });
+        const user = await Student.findOne({ email });
         if (!user) throw new Error("المستخدم غير موجود!");
 
       
