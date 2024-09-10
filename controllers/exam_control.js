@@ -235,21 +235,21 @@ const deleteExam = async (req, res) => {
       return res.status(404).send("Exam not found!");
     }
 
-    const bucket = admin.storage().bucket();
-
-   
     if (Array.isArray(exam.Questions)) {
+     
       for (let question of exam.Questions) {
      
-        if (question.img && question.img !== 'empty') {
+        if ( question.img !== 'empty') {
+           const bucket = admin.storage().bucket();
           const filename = question.img.split('/').pop();
           await bucket.file(filename).delete();
         }
       }
+       await Exam.findByIdAndDelete(exam_id);
     }
 
  
-    await Exam.findByIdAndDelete(exam_id);
+   
 
     res.status(200).send("Exam deleted with all associated questions and images!");
   } catch (e) {
