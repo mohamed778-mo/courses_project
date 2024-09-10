@@ -240,24 +240,23 @@ const deleteExam = async (req, res) => {
    
     if (Array.isArray(exam.Questions)) {
       for (let question of exam.Questions) {
-        if ( question.img !== 'empty') {
+     
+        if (question.img && question.img !== 'empty') {
           const filename = question.img.split('/').pop();
           await bucket.file(filename).delete();
-          await Exam.findByIdAndDelete(exam_id);
         }
-      }
-      if(question.img === 'empty'){
-        await Exam.findByIdAndDelete(exam_id);
       }
     }
 
-    
+ 
+    await Exam.findByIdAndDelete(exam_id);
 
     res.status(200).send("Exam deleted with all associated questions and images!");
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
+
 
 
 
