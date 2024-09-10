@@ -238,7 +238,7 @@ const deleteExam = async (req, res) => {
     const bucket = admin.storage().bucket();
 
     for (let question of exam.Questions) {
-      if (question.img && question.img !== 'empty') {
+      if (question.img !== 'empty') {
         const filename = question.img.split('/').pop();
         await bucket.file(filename).delete();
       }
