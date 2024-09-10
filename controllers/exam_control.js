@@ -234,23 +234,31 @@ const deleteExam = async (req, res) => {
     if (!exam) {
       return res.status(404).send("Exam not found!");
     }
- 
-    if (question.img !== 'empty') {
+
     const bucket = admin.storage().bucket();
-    for (let question of exam.Questions) {
-        const filename = question.img.split('/').pop();
-        await bucket.file(filename).delete();
+
+   
+    if (Array.isArray(exam.Questions)) {
+      for (let question of exam.Questions) {
+        if ( question.img !== 'empty') {
+          const filename = question.img.split('/').pop();
+          await bucket.file(filename).delete();
+          await Exam.findByIdAndDelete(exam_id);
+        }
+      }
+      if(question.img === 'empty'){
+        await Exam.findByIdAndDelete(exam_id);
       }
     }
 
-
-    await Exam.findByIdAndDelete(exam_id);
+    
 
     res.status(200).send("Exam deleted with all associated questions and images!");
   } catch (e) {
     res.status(500).send(e.message);
   }
 };
+
 
 
 const getquestions = async (req, res) => {
