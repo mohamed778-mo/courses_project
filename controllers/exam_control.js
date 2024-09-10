@@ -234,11 +234,10 @@ const deleteExam = async (req, res) => {
     if (!exam) {
       return res.status(404).send("Exam not found!");
     }
-
+ 
+    if (question.img !== 'empty') {
     const bucket = admin.storage().bucket();
-
     for (let question of exam.Questions) {
-      if (question.img !== 'empty') {
         const filename = question.img.split('/').pop();
         await bucket.file(filename).delete();
       }
