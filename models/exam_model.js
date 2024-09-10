@@ -39,7 +39,8 @@ var examSchema = new mongoose.Schema({
             type:String
         },
         img:{
-            type:String
+            type:String,
+            default:'empty'
         }
         ,
         answer_1:{type:String},
