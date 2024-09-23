@@ -246,7 +246,7 @@ const deleteExam = async (req, res) => {
     //     }
         
     //   }
-     const delete =  await Exam.findByIdAndDelete(exam_id);
+       await Exam.findByIdAndDelete(exam_id);
     // }
 
  
