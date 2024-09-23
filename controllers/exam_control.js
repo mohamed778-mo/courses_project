@@ -240,9 +240,9 @@ const deleteExam = async (req, res) => {
       for (let question of exam.Questions) {
      
         if ( question.img !== 'empty') {
-           const bucket = admin.storage().bucket();
-          const filename = question.img.split('/').pop();
-          await bucket.file(filename).delete();
+        const bucket = admin.storage().bucket();
+        const filename = question.img.split('/').pop().split('?')[0]; 
+       const delete = await bucket.file(filename).delete();
         }
       }
        await Exam.findByIdAndDelete(exam_id);
