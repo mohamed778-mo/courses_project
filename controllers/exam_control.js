@@ -743,6 +743,114 @@ const get_end_exam=async(req,res)=>{
 
 
 
+const edit_exam = async (req, res) => {
+    try {
+        const {
+            title,
+            subject,
+            level,
+            departement,
+            start,
+            end,
+            questions
+        } = req.body;
+
+        const exam_id = req.params.exam_id;
+        const Q_A = typeof questions === 'string' ? JSON.parse(questions) : questions;
+
+      
+        const existing_exam = await Exam.findById(exam_id);
+        if (!existing_exam) {
+            return res.status(404).json({ message: 'Exam not found!' });
+        }
+
+     
+        if (Q_A && Q_A.length > 0) {
+            const updatedQuestions = await Promise.all(Q_A.map(async (question, i) => {
+                
+                const existingQuestion = existing_exam.Questions[i] || {};
+
+               
+                let newQuestion = {
+                    question: question.question || existingQuestion.question,
+                    answer_1: question.answer_1 || existingQuestion.answer_1,
+                    answer_2: question.answer_2 || existingQuestion.answer_2,
+                    answer_3: question.answer_3 || existingQuestion.answer_3,
+                    answer_4: question.answer_4 || existingQuestion.answer_4,
+                    mark: question.mark || existingQuestion.mark,
+                    correctChoice: question.correctChoice || existingQuestion.correctChoice,
+                    correctBoolean: question.correctBoolean || existingQuestion.correctBoolean,
+                    img: existingQuestion.img 
+                };
+
+              
+                const file = req.files ? req.files.find(f => f.fieldname === `questions[${i}].imgFile`) : undefined;
+                if (file) {
+                  
+                    if (!admin.apps.length) {
+                        admin.initializeApp({
+                            credential: admin.credential.cert(serviceAccount),
+                            storageBucket: process.env.STORAGE_BUCKET
+                        });
+                    }
+
+                    const bucket = admin.storage().bucket();
+                    const blob = bucket.file(file.filename);
+                    const blobStream = blob.createWriteStream({
+                        metadata: {
+                            contentType: file.mimetype
+                        }
+                    });
+
+                    await new Promise((resolve, reject) => {
+                        blobStream.on('error', (err) => {
+                            reject(err);
+                        });
+
+                        blobStream.on('finish', async () => {
+                            try {
+                                await blob.makePublic();
+                                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                                fs.unlinkSync(file.path); 
+                                newQuestion.img = publicUrl; 
+                                resolve();
+                            } catch (err) {
+                                reject(err);
+                            }
+                        });
+
+                        fs.createReadStream(file.path).pipe(blobStream);
+                    });
+                }
+
+                return newQuestion;
+            }));
+
+          
+            existing_exam.Questions = updatedQuestions;
+        }
+
+       
+        existing_exam.title = title || existing_exam.title;
+        existing_exam.subject = subject || existing_exam.subject;
+        existing_exam.level = level || existing_exam.level;
+        existing_exam.departement = departement || existing_exam.departement;
+        existing_exam.start = start || existing_exam.start;
+        existing_exam.end = end || existing_exam.end;
+
+       
+        await existing_exam.save();
+
+        res.status(200).json({ message: 'Exam updated successfully!' });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+
 module.exports = {
   createExam,
   single_create_exam,
@@ -765,5 +873,7 @@ module.exports = {
   
 get_all_revisions,
 
-  get_end_exam
+  get_end_exam,
+
+edit_exam
 };
