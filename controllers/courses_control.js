@@ -203,14 +203,15 @@ const buycourse = async(req,res)=>{
       if( courseExists ){
          return response()
         }
-  
-        const check = await Courses.findOne( {codes:code}  )
-        if ( ! check  )   {
+
+        const must_in_course = course?.codes?.includes(code)
+     if ( ! must_in_course  )   {
   
      return  res.status(400).send({ error: 'Invalid code.' })
         }
+       
     
-        const usedCodes=await Courses.findOne({usedCodes:code})
+        const usedCodes= course?.usedCodes?.includes(code)
 
         if (usedCodes) {
           return res.status(400).json({ error: 'Code has already been used.' });
