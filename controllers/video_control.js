@@ -207,13 +207,13 @@ const buyVideo=async(req,res)=>{
   
         const {code}=req.body
   
-        const check = await Video.findOne( {codes:code}  )
+        const check =  video?.codes?.includes( code )
         if ( ! check  )   {
   
         return  res.status(400).send({ error: 'Invalid code.' })
         }
   
-        const usedCodes=await Video.findOne({usedCodes:code})
+        const usedCodes=video?.usedCodes?.includes(code)
   
         if (usedCodes) {
           return res.status(400).json({ error: 'Code has already been used.' });
