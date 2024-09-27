@@ -848,8 +848,7 @@ const edit_exam = async (req, res) => {
     }
 };
 
-const single_exams=async(req,res)=>{
-
+const single_exams = async (req, res) => {
   try {
     const T_id = req.user._id;
     if (!T_id) {
@@ -857,8 +856,16 @@ const single_exams=async(req,res)=>{
     }
 
     
+    const start_time =req.body.start
+    const end_time =req.body.end
+if(!start_time){
+  return res.status(400).send("time is required")
+}
+    if(!end_time){
+  return res.status(400).send("time is required")
+}
     const newExam = new Exam({
-      title: 'single_exam',
+      title: req.body.title,
       subject: req.body.subject,
       level: req.body.level,
       department: req.body.department,
@@ -882,8 +889,8 @@ const single_exams=async(req,res)=>{
         let newQuestion;
 
         const file = req.files ? req.files.find(f => f.fieldname === `questions[${i}].imgFile`) : undefined;
+        
         if (file) {
-          
           if (!admin.apps.length) {
             admin.initializeApp({
               credential: admin.credential.cert(serviceAccount),
@@ -930,9 +937,6 @@ const single_exams=async(req,res)=>{
 
             fs.createReadStream(file.path).pipe(blobStream);
           });
-       
-       
-       
         } else {
           newQuestion = {
             question: Question.question,
@@ -950,8 +954,8 @@ const single_exams=async(req,res)=>{
         }
       }
     }
-
-const selected_ids = JSON.parse(req.body.selected_ids)
+    
+    const selected_ids = JSON.parse(req.body.selected_ids)
    
     if(Array.isArray(selected_ids) && selected_ids.length > 0 ){
 
@@ -980,8 +984,6 @@ const selected_ids = JSON.parse(req.body.selected_ids)
 
     
 
-    await data.save();
-    res.status(200).send({ exam: newExam, questions: data.Questions });
     await data.save();
     res.status(200).send({ exam: newExam, questions: data.Questions });
 
