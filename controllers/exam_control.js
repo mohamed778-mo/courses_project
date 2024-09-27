@@ -848,6 +848,147 @@ const edit_exam = async (req, res) => {
     }
 };
 
+const single_exams=async(req,res)=>{
+
+  try {
+    const T_id = req.user._id;
+    if (!T_id) {
+      return res.status(404).send("Please login!!");
+    }
+
+    
+    const newExam = new Exam({
+      title: 'single_exam',
+      subject: req.body.subject,
+      level: req.body.level,
+      department: req.body.department,
+      Teacher_Name: `${req.user.FirstName} ${req.user.LastName}`,
+      Teacher_Id: req.user._id,
+      start: req.body.start,
+      end: req.body.end,
+      
+    });
+
+    await newExam.save();
+
+    const exam_id = newExam._id;
+    const data = await Exam.findById(exam_id);
+
+    const questions = JSON.parse(req.body.questions);
+
+    if (Array.isArray(questions) && questions.length > 0) {
+      for (let i = 0; i < questions.length; i++) {
+        const Question = questions[i];
+        let newQuestion;
+
+        const file = req.files ? req.files.find(f => f.fieldname === `questions[${i}].imgFile`) : undefined;
+        if (file) {
+          
+          if (!admin.apps.length) {
+            admin.initializeApp({
+              credential: admin.credential.cert(serviceAccount),
+              storageBucket: process.env.STORAGE_BUCKET
+            });
+          }
+
+          const bucket = admin.storage().bucket();
+          const blob = bucket.file(file.filename);
+          const blobStream = blob.createWriteStream({
+            metadata: {
+              contentType: file.mimetype
+            }
+          });
+
+          await new Promise((resolve, reject) => {
+            blobStream.on('error', (err) => {
+              reject(err);
+            });
+
+            blobStream.on('finish', async () => {
+              try {
+                await blob.makePublic();
+                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                fs.unlinkSync(file.path);
+                newQuestion = {
+                  question: Question.question,
+                  img: publicUrl,
+                  answer_1: Question.answer_1,
+                  answer_2: Question.answer_2,
+                  answer_3: Question.answer_3,
+                  answer_4: Question.answer_4,
+                  mark: Question.mark,
+                  role: Question.role,
+                  correctBoolean: Question.correctBoolean,
+                  correctChoice: Question.correctChoice,
+                };
+                data.Questions.push(newQuestion);
+                resolve();
+              } catch (err) {
+                reject(err);
+              }
+            });
+
+            fs.createReadStream(file.path).pipe(blobStream);
+          });
+       
+       
+       
+        } else {
+          newQuestion = {
+            question: Question.question,
+            img: 'empty',
+            answer_1: Question.answer_1,
+            answer_2: Question.answer_2,
+            answer_3: Question.answer_3,
+            answer_4: Question.answer_4,
+            mark: Question.mark,
+            role: Question.role,
+            correctBoolean: Question.correctBoolean,
+            correctChoice: Question.correctChoice,
+          };
+          data.Questions.push(newQuestion);
+        }
+      }
+    }
+
+const selected_ids = JSON.parse(req.body.selected_ids)
+   
+    if(Array.isArray(selected_ids) && selected_ids.length > 0 ){
+
+      const selected_questions = await Question.find( { _id :{ $in : selected_ids } } )
+      
+      selected_questions.forEach( (q)=>{
+
+      let new_Question_Selected = {
+          question: q.question,
+          img: q.img,
+          answer_1: q.answer_1,
+          answer_2: q.answer_2,
+          answer_3: q.answer_3,
+          answer_4: q.answer_4,
+          mark: q.mark,
+          role: q.role,
+          correctBoolean: q.correctBoolean,
+          correctChoice: q.correctChoice,
+        };
+        data.Questions.push(new_Question_Selected);
+
+        
+      })
+      
+    }
+
+    
+
+    await data.save();
+    res.status(200).send({ exam: newExam, questions: data.Questions });
+    await data.save();
+    res.status(200).send({ exam: newExam, questions: data.Questions });
+
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+};
 
 
 
@@ -875,5 +1016,6 @@ get_all_revisions,
 
   get_end_exam,
 
-edit_exam
+edit_exam,
+  single_exams
 };
