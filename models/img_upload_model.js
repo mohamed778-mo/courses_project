@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UploadsSchema = new mongoose.Schema({
+const Img_UploadsSchema = new mongoose.Schema({
     group_name: { 
       type: String, 
       required: true
@@ -39,5 +39,4 @@ const UploadsSchema = new mongoose.Schema({
     ]
 });
 
-const Uploads = mongoose.model('Uploads', UploadsSchema);
-module.exports = Uploads;
+module.exports = mongoose.model('Img', Img_UploadsSchema);
