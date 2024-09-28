@@ -262,7 +262,7 @@ const delete_image = async (req, res) => {
             return bucket.file(filePath).delete();
         });
 
-     e
+     
         await Promise.all(deletePromises);
 
    
