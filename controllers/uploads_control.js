@@ -242,7 +242,41 @@ const get_img =  async (req,res)=>{
 }
 
 
+const delete_image = async (req, res) => {
+    try {
+        const img_id = req.params.img_id;
+        
+      
+        const imgData = await Img.findById(img_id);
+        if (!imgData) {
+            return res.status(404).send('Image not found');
+        }
+
+      
+        const imageUrls = imgData.images.map(image => image.url);
+        const bucket = admin.storage().bucket();
+
+   
+        const deletePromises = imageUrls.map((url) => {
+            const filePath = url.split(`${bucket.name}/`)[1]; 
+            return bucket.file(filePath).delete();
+        });
+
+     e
+        await Promise.all(deletePromises);
+
+   
+        await Img.findByIdAndDelete(img_id);
+
+        res.status(200).send({ message: 'Image and associated data deleted successfully' });
+    } catch (e) {
+        console.error(e);
+        res.status(500).send(e.message);
+    }
+};
+
+
   module.exports = {
     upload_pdf,get_pdf,delete_pdf,get_pdfs ,
-      upload_images , get_imgs , get_img
+      upload_images , get_imgs , get_img , delete_image
   }
