@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 
-const {createExam,single_create_exam,single_exams,deleteQuestion,getExam,edit_exam, deleteExam, getquestions,getAllResultsTeacher,getAllExams,getAllResultsExamTeacher,get_all_revisions ,results_avaliable ,results_unavaliable }=require("../controllers/exam_control") 
+const {createExam,single_create_exam,single_exams,deleteQuestion,getExam,edit_exam,getAllSingleExams, deleteExam, getquestions,getAllResultsTeacher,getAllExams,getAllResultsExamTeacher,get_all_revisions ,results_avaliable ,results_unavaliable }=require("../controllers/exam_control") 
 
 const {adminAuth}=require("../middleware/auth")
 const storage = require("../middleware/multer_upload")
@@ -25,5 +25,8 @@ router.get('/allresults',adminAuth,getAllResultsTeacher)
 router.patch('/results_available/:exam_id',results_avaliable)
 router.patch('/results_unavailable/:exam_id',results_unavaliable)
 router.get('/get_all_exercise', adminAuth, get_all_revisions)
+
+router.get('/get_all_single_exams',adminAuth,getAllSingleExams)
+
 
 module.exports = router
