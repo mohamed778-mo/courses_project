@@ -865,7 +865,7 @@ if(!start_time){
   return res.status(400).send("time is required")
 }
     const newExam = new Exam({
-      title: req.body.title,
+      title: 'single_exam',
       subject: req.body.subject,
       level: req.body.level,
       department: req.body.department,
@@ -992,7 +992,23 @@ if(!start_time){
   }
 };
 
+const getAllSingleExams = async (req, res) => {
+  try {
+    const teacherId = req.user._id;
 
+    if (!mongoose.Types.ObjectId.isValid(teacherId)) {
+      return res.status(400).send(" ID is not correct!");
+    }
+
+  
+    const data = await Exam.find({ title:'single_exam' , Teacher_Id: teacherId });
+    
+
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send("something is wrong !!");
+  }
+};
 
 module.exports = {
   createExam,
@@ -1019,5 +1035,6 @@ get_all_revisions,
   get_end_exam,
 
 edit_exam,
-  single_exams
+  single_exams,
+  getAllSingleExams
 };
