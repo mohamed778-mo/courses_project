@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const connection = require("./connection/config");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
@@ -7,15 +8,36 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger-output.json");
+const rateLimit = require('express-rate-limit');
+const express_mongo_sanitize= require('express-mongo-sanitize');
+const xss=require('xss-clean');
+const hpp = require('hpp')
 
 const app = express();
-app.use(express.json());
 
+
+app.use(helmet());
+
+app.use(cors());
+
+const LIMIT = '500kb';
+app.use(bodyParser.json({ limit: LIMIT, extended: true }));
+app.use(bodyParser.urlencoded({ limit: LIMIT, extended: true }));
+app.use(express.json({ limit: LIMIT }));
 
 app.use(cookieParser());
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+
+const ratelimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, 
+    max: 100, 
+    message: "Too many requests from this IP, please try again later.",
+});
+
+ app.use(ratelimiter); 
+
+ app.use(hpp())
+ app.use(express_mongo_sanitize())
+ app.use(xss())
 
 const teacherRouter = require('./routers/teacher_router');
 const courseRouter = require('./routers/courses_router');
