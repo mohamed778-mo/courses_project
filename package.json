@@ -43,6 +43,11 @@
     "validation": "^0.0.1",
     "validator": "^13.11.0",
     "viemo": "^1.1.0",
-    "vimeo": "^2.3.1"
+    "vimeo": "^2.3.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.0",  
+    "csurf": "^1.10.0",
+    "helmet": "^8.0.0",
+    "xss-clean": "^0.1.4"
   }
 }
